@@ -1,0 +1,8 @@
+{
+  "title": "Can't Verify?",
+  "description": "- Check that you are logged into the correct discord account on your browser.\n - This can be done by going to https://discord.com/login and logging into the correct account.\n- Try opening the link in an incognito browser (Yes, this can be done on mobile).",
+  "image": {
+    "url": "https://media.discordapp.net/attachments/576764484065165313/985238549886562374/unknown.png"
+  },
+  "color": 2003199
+}

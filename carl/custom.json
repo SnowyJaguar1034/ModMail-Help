@@ -1,0 +1,31 @@
+{
+  "fields": [
+    {
+      "name": "ModMail Custom Instances",
+      "value": "The pricing is $60/year.\nYou can contact <@381998065327931392> (James [a_leon] / jrwallor) or <@365262543872327681> (SnowyJaguar) for a custom instance.\nThese are the benefits of a custom instance:\n- Custom username, avatar and status message.\n- All the [premium features](https://modmail.xyz/premium).\n- No confirmation messages.\n- Commands to create tickets with users.\n- Requiring a command to send messages.",
+      "inline": true
+    },
+    {
+      "name": "Self Host ModMail",
+      "value": "We do not officially support self-hosting.\n\nHowever, you can [self-host the latest bot with Docker Compose](https://github.com/chamburr/modmail#self-hosting).\n\nAlternatively, you can self-host an older version of the bot with guides [here](https://gist.github.com/waterflamev8/cab61e680e2fb5ea6027cbf144732925) and [here](https://github.com/chamburr/modmail/blob/v2.1.2/README.md#self-hosting).",
+      "inline": true
+    },
+    { "name": "", "value": "", "inline": false },
+    {
+      "name": "Cheap VPS",
+      "value": "- [Scaleway | EU](https://www.scaleway.com)\n- [Linode | US, EU, Asia](https://www.linode.com)\n- [Digital Ocean | US](https://www.digitalocean.com)\n- [Vultr | US, EU, NA, SA, Asia](https://www.vultr.com)\n- [OVH | EU, Canada](https://www.ovh.co.uk)\n- [Hetzner | Germany, US](https://www.hetzner.com)\n- [Time4VPS | Lithuania](https://www.time4vps.eu)",
+      "inline": true
+    },
+    {
+      "name": "",
+      "value": "**Free hosting:**\nNo. Not even heroku/repl.it - Refer to `.freehost` and `replit` for why\n\n**Kinda Free hosting:**\nGCP and AWS have one year free micros.",
+      "inline": true
+    },
+    {
+      "name": "Self Host Locally",
+      "value": "Any modern hardware should be sufficient for running a bot. An old computer with a few GB of RAM could be suitable, or a Raspberry Pi (any model, except perhaps one of the particularly less powerful ones).\n**Note:** We don't recommend using Windows because it requires a drastic change to the scripts to support Windows file path structure, Windows can also be finicky about releasing the AVX2 instruction set which is required for ModMail to function.",
+      "inline": false
+    }
+  ],
+  "color": 2003199
+}

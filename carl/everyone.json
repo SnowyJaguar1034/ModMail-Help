@@ -1,0 +1,17 @@
+{
+  "fields": [
+    {
+      "name": "Server Wide permissions",
+      "value": "These permissions are found in: **Server Settings --> Roles**\n\n- Your `@everyone` role needs to have `Send Messages` and `view message history` toggled on and `view channel` toggled off.\n - **Optional:** It can also have `connect`, `speak`, voice activity, `embed links`, `change nickname`, `add reaction`.\n  - These are optional as some people like to restrict some of these perms behind role rewards or only give them to server boosters.",
+      "inline": false
+    },
+    {
+      "name": "Channel/Category Specific Permissions",
+      "value": "These permissions are found in: **Channel/category Settings --> Permissions**\n\n- Your `@everyone` role needs to have `view channel` set as the green tick within the channel/category permissions and not the role permissions.\n- If you have a `mute` or `muted` role then set it's `send messages` permission to the red cross.\n - **Optional:** set the `muted` or `mute` role `add reactions` to red cross as well to prevent muted users from spamming reactions on messages to show their displeasure at being muted.\n- Any role that should have access to view a channel should have `view channel` enabled for that channel/category.\n - Note: Users inherit permissions from all of their roles so if you gave `view channel` to your `@everyone` role for #general then no other role needs to have that permission.\n - Note: If you gave `view channel` only to your server booster role then only users with that role would be able to view that channel.",
+      "inline": false
+    }
+  ],
+  "title": "Tickets Access Issue",
+  "description": "If everyone in your server can view tickets, there is a chance that another bot in your server is interfering. This is not a problem with ModMail. We recommend checking the audit logs in your server settings to see which bot is changing the channel permissions.",
+  "color": 2003199
+}

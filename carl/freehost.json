@@ -1,0 +1,12 @@
+{
+  "fields": [
+    {
+      "name": "Heroku",
+      "value": "- Bots are not what the platform is designed for.\n - Heroku is designed to provide web servers (like Django, Flask, etc). This is why they give you a domain name and open a port on their local emulator.\n- Heroku's environment is heavily containerized, making it significantly underpowered for a standard use case.\n- Heroku's environment is volatile.\n - In order to handle the insane amount of users trying to use it for their own applications, Heroku will dispose of your environment every time your application dies unless you pay.\n- Heroku has minimal system dependency control.\n - This is the reason why voice doesn't work natively on Heroku.\n- Heroku only offers a limited amount of time on their free program for your applications. If you exceed this limit, which you probably will, they'll shut down your application until your free credit resets.",
+      "inline": true
+    }
+  ],
+  "title": "'Free' Hosting Red Flags 🚩",
+  "color": 2003199,
+  "footer": { "text": "For info on Repl.it see the following tag: replit" }
+}

@@ -1,0 +1,5 @@
+{
+  "title": "No Bot Response",
+  "description": "If ModMail is not responding in your server, please check the following:\n- The bot has Read Messages, Send Messages, and Embed Links permissions.\n- You are using the correct prefix.\n - Use `@ModMail prefix` to check the prefix.\n- The command you are using is valid.\n - Check using `=help <command>`.\n- The bot is online. Discord might be having issues, or the bot might be restarting.\n- If the bot still does respond, please let us know your [server ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-).",
+  "color": 2003199
+}

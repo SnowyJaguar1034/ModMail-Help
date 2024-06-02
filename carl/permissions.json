@@ -1,0 +1,11 @@
+{
+  "title": "Permissions ModMail Requires",
+  "description": "This is a list of permissions ModMail requires to function.",
+  "image": {
+    "url": "https://media.discordapp.net/attachments/576764854673735680/863863546915979274/unknown-4.png"
+  },
+  "color": 2003199,
+  "footer": {
+    "text": "The admin permission is optional, but if the bot does not work, you could try giving it admin."
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "fields": [
+    {
+      "name": "Initial Setup",
+      "value": "1. [Invite the bot](https://modmail.xyz/invite).\n2. Run `=setup` in your server.\n3. Done! :tada:\n\n[You can use `=help` for a list of commands.](https://modmail.xyz/commands)",
+      "inline": true
+    },
+    {
+      "name": "Premium",
+      "value": "Please consider purchasing premium for more features!\nThis includes full conversation logging, custom greeting and closing messages, as well as snippets.\n\n[Learn more about ModMail Premium](https://modmail.xyz/premium).",
+      "inline": true
+    },
+    {
+      "name": "Advanced Setup",
+      "value": "Some additional commands you could use are:\n- `=pingrole <roles>`: For the bot to ping certain roles when tickets are created.\n- `=accessrole <roles>`: For configuring which roles can reply to ModMail tickets.\n- `=anonymous`: For toggling anonymous staff replies to hide the responder's name.\n - This does not work for making your end-user anonymous.\n- `=logging`: For toggling log messages of tickets being opened or closed.\n - This does not log a transcript of the messages.\n- `=commandonly`: For toggling if commands are required to reply to tickets.\n - If **disabled** staff have only to type in the channel for their message to be sent.\n - If **enabled** staff have to reply with `=reply` or `=areply`.\n\nYou can mention the roles, use role IDs or role names.\nFor role names with a space, it needs to be in quotes (e.g. \\\"Head Admin\\\")",
+      "inline": false
+    }
+  ],
+  "color": 2003199
+}

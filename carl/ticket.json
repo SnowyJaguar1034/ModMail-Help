@@ -1,0 +1,25 @@
+{
+  "fields": [
+    {
+      "name": "Method One: Message the Bot",
+      "value": "The quickest and simplest way to open a ticket is to DM the bot a message and follow the given prompts.",
+      "inline": false
+    },
+    {
+      "name": "Method Two: Using a command in DMs",
+      "value": "You can use `=send <server ID> <message>` to create a ticket on a specific server. You still actually need to be a member of that server and ModMail still needs to be on the server as well, but this skips the server selection menu, which we know can confuse some people.\n\nTo obtain the server ID, please use `=serverinfo` in the server or [follow this guide](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-).",
+      "inline": false
+    },
+    {
+      "name": "Bonus Information: `=confirmation` command",
+      "value": "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear.",
+      "inline": false
+    }
+  ],
+  "title": "Open a ticket",
+  "description": "Below are two methods to open a new ModMail ticket",
+  "image": {
+    "url": "https://cdn.discordapp.com/attachments/593436164850057216/1176466857478324224/0b6272a7-e171-4b53-baa6-e8bfb1db409d.png?ex=656ef924&is=655c8424&hm=c88ce74abfddb3d912cdef431d2173cad9b34d065301a9ebb0744b"
+  },
+  "color": 2003199
+}

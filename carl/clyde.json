@@ -1,0 +1,8 @@
+{
+  "title": "Message not delivered",
+  "description": "If you receive \\\"your message could not be delivered\\\", then check your privacy settings for this server.\nYou need to enable the \\\"allow direct messages from server members\\\" option.",
+  "image": {
+    "url": "https://media.discordapp.net/attachments/576764854673735680/837129125327011860/unknown.png"
+  },
+  "color": 2003199
+}

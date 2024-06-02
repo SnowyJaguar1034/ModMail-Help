@@ -1,0 +1,15 @@
+{
+  "fields": [
+    {
+      "name": "Users must join this server __before__ purchasing, otherwise they will not receive the role and will not be able to use the premium commands.",
+      "value": "*Note: We can manually assign patron roles for those who did not join before purchasing, however, the process could take a few hours while we wait for an administrator to be available.*",
+      "inline": false
+    }
+  ],
+  "title": "Issues with Premium",
+  "description": "Any user who bought premium will have one of the following roles depending on the tier purchased:\n- Patron: 1 Server\n- Super Patron: 3 Servers\n- Super Duper Patron: 5 Servers\n\nThis enables them to use the premium management commands to assign/remove premium from servers, as well as check which servers they have premium on.\nThese commands are found on page 7 of the `=help` command, the second to last page.",
+  "image": {
+    "url": "https://media.discordapp.net/attachments/576765224460353589/929004300951253012/unknown.png"
+  },
+  "color": 2003199
+}
