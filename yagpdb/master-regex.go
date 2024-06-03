@@ -33,14 +33,43 @@
 		"name" "Premium"
 		"value" "Please consider purchasing premium for more features!\nThis includes full conversation logging, custom greeting and closing messages, as well as snippets."
 		"inline" true
-		) (sdict 
-		"name" "Advanced Setup"
-		"value" "Some additional commands you could use are:\n- `=pingrole <roles>`: For the bot to ping certain roles when tickets are created.\n- `=accessrole <roles>`: For configuring which roles can reply to ModMail tickets.\n- `=anonymous`: For toggling anonymous staff replies to hide the responder's name.\n - This does not work for making your end-user anonymous.\n- `=logging`: For toggling log messages of tickets being opened or closed.\n - This does not log a transcript of the messages.\n- `=commandonly`: For toggling if commands are required to reply to tickets.\n - If **disabled** staff have only to type in the channel for their message to be sent.\n - If **enabled** staff have to reply with `=reply` or `=areply`.\n\nYou can mention the roles, use role IDs or role names.\nFor role names with a space, it needs to be in quotes (e.g. \"Head Admin\")"
 		)
 	)}}
-{{ $msg := sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+{{addMessageReactions nil $msgID (cslice ":modmail:")}}
+{{editMessage nil $msgID (complexMessageEdit "embed" $embed.fields.Append (sdict 
+	"name" "Advanced Setup" 
+	"value" "Some additional commands you could use are:" 
+	"inline" false
+	) (sdict
+		"name" "- `=pingrole <roles>`"
+		"value" "For the bot to ping certain roles when tickets are created."
+		"inline" true
+	) (sdict
+		"name" "- `=accessrole <roles>`"
+		"value" "For configuring which roles can reply to ModMail tickets."
+		"inline" true
+	) (sdict
+		"name" "- `=anonymous`"
+		"value" "For toggling anonymous staff replies to hide the responder's name.\nThis does not work for making your end-user anonymous."
+		"inline" true
+	) (sdict
+		"name" "- `=logging`"
+		"value" "For toggling log messages of tickets being opened or closed.\nThis does not log a transcript of the messages."
+		"inline" true
+	) (sdict
+		"name" "- `=commandonly`"
+		"value" "For toggling if commands are required to reply to tickets.\nIf **disabled** staff have only to type in the channel for their message to be sent.\nIf **enabled** staff have to reply with `=reply` or `=areply`."
+		"inline" true
+	) (sdict
+		"name" "You can mention the roles, use role IDs or role names."
+		"value" "For role names with a space, it needs to be in quotes (e.g. \"Head Admin\")"
+		"inline" false
+	) ) }}
 {{ $alreadyreplied:=false }}
 {{ end }}
+$x = $x.Append "green" }}
+
 
 {{ if $ticket }}
 {{sendMessage nil "Doing stuff post check!" }}
