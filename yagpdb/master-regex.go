@@ -68,7 +68,6 @@
 	) ) }}
 {{ $alreadyreplied:=false }}
 {{ end }}
-$x = $x.Append "green" }}
 
 
 {{ if $ticket }}
