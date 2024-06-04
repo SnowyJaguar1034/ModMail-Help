@@ -38,7 +38,7 @@
 	)}}
 {{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
 {{addMessageReactions nil $msgID (cslice ":modmail:702099194701152266")}}
-{{editMessage nil $msgID (complexMessageEdit "embed" ($embed.fields.Append (sdict 
+{{editMessage nil $msgID (complexMessageEdit "embed" ($embed.Set "fields" ($embed.fields.Append (sdict 
 	"name" "Advanced Setup" 
 	"value" "Some additional commands you could use are:" 
 	"inline" false
