@@ -39,10 +39,10 @@
 {{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
 {{addMessageReactions nil $msgID (cslice ":modmail:702099194701152266")}}
 {{ $embed.Set "fields" ($embed.fields.Append (sdict 
-	"name" "Advanced Setup" 
-	"value" "Some additional commands you could use are:" 
-	"inline" false
-	)(sdict
+		"name" "Advanced Setup" 
+		"value" "Some additional commands you could use are:" 
+		"inline" false
+	) (sdict
 		"name" "- `=pingrole <roles>`"
 		"value" "For the bot to ping certain roles when tickets are created."
 		"inline" true
