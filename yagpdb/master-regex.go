@@ -45,7 +45,7 @@
 ))}}
 {{ $embed.Set "fields" ($embed.fields.Append (sdict
 	"name" "`=pingrole <roles>`"
-	"value" "For the bot to ping certain roles when tickets are created."
+	"value" "For configuring which roles get pinged upon a ModMail ticket being created."
 	"inline" true
 ))}}
 {{ $embed.Set "fields" ($embed.fields.Append (sdict
