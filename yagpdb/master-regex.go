@@ -44,28 +44,28 @@
 	"inline" false
 ))}}
 {{ $embed.Set "fields" ($embed.fields.Append (sdict
-	"name" "- `=pingrole <roles>`"
+	"name" "`=pingrole <roles>`"
 	"value" "For the bot to ping certain roles when tickets are created."
 	"inline" true
 ))}}
 {{ $embed.Set "fields" ($embed.fields.Append (sdict
-	"name" "- `=accessrole <roles>`"
+	"name" "`=accessrole <roles>`"
 	"value" "For configuring which roles can reply to ModMail tickets."
 	"inline" true
 ))}}
 {{ $embed.Set "fields" ($embed.fields.Append (sdict
-	"name" "- `=anonymous`"
+	"name" "`=commandonly`"
+	"value" "For toggling if commands are required to reply to tickets.\nIf **disabled** staff have only to type in the channel for their message to be sent.\nIf **enabled** staff have to reply with `=reply` or `=areply`."
+	"inline" false
+))}}
+{{ $embed.Set "fields" ($embed.fields.Append (sdict
+	"name" "`=anonymous`"
 	"value" "For toggling anonymous staff replies to hide the responder's name.\nThis does not work for making your end-user anonymous."
 	"inline" true
 ))}}
 {{ $embed.Set "fields" ($embed.fields.Append (sdict
-	"name" "- `=logging`"
+	"name" "`=logging`"
 	"value" "For toggling log messages of tickets being opened or closed.\nThis does not log a transcript of the messages."
-	"inline" true
-))}}
-{{ $embed.Set "fields" ($embed.fields.Append (sdict
-	"name" "- `=commandonly`"
-	"value" "For toggling if commands are required to reply to tickets.\nIf **disabled** staff have only to type in the channel for their message to be sent.\nIf **enabled** staff have to reply with `=reply` or `=areply`."
 	"inline" true
 ))}}
 {{ $embed.Set "fields" ($embed.fields.Append (sdict
