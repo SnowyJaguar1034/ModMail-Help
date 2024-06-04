@@ -38,18 +38,41 @@
 	)}}
 {{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
 {{addMessageReactions nil $msgID (cslice ":modmail:702099194701152266")}}
-{{ $embed.Set "fields" 
-	($embed.fields.Append(sdict 
-		"name" "Advanced Setup" 
-		"value" "Some additional commands you could use are:" 
-		"inline" false
-	))
-	($embed.fields.Append(sdict
-		"name" "- `=pingrole <roles>`"
-		"value" "For the bot to ping certain roles when tickets are created."
-		"inline" true
-	))}}
-
+{{ $embed.Set "fields" ($embed.fields.Append (sdict 
+	"name" "Advanced Setup" 
+	"value" "Some additional commands you could use are:" 
+	"inline" false
+))}}
+{{ $embed.Set "fields" ($embed.fields.Append (sdict
+	"name" "- `=pingrole <roles>`"
+	"value" "For the bot to ping certain roles when tickets are created."
+	"inline" true
+))}}
+{{ $embed.Set "fields" ($embed.fields.Append (sdict
+	"name" "- `=accessrole <roles>`"
+	"value" "For configuring which roles can reply to ModMail tickets."
+	"inline" true
+))}}
+{{ $embed.Set "fields" ($embed.fields.Append (sdict
+	"name" "- `=anonymous`"
+	"value" "For toggling anonymous staff replies to hide the responder's name.\nThis does not work for making your end-user anonymous."
+	"inline" true
+))}}
+{{ $embed.Set "fields" ($embed.fields.Append (sdict
+	"name" "- `=logging`"
+	"value" "For toggling log messages of tickets being opened or closed.\nThis does not log a transcript of the messages."
+	"inline" true
+))}}
+{{ $embed.Set "fields" ($embed.fields.Append (sdict
+	"name" "- `=commandonly`"
+	"value" "For toggling if commands are required to reply to tickets.\nIf **disabled** staff have only to type in the channel for their message to be sent.\nIf **enabled** staff have to reply with `=reply` or `=areply`."
+	"inline" true
+))}}
+{{ $embed.Set "fields" ($embed.fields.Append (sdict
+	"name" "You can mention the roles, use role IDs or role names."
+	"value" "For role names with a space, it needs to be in quotes (e.g. \"Head Admin\")"
+	"inline" false
+))}}
 {{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
 
 {{ $alreadyreplied:=false }}
