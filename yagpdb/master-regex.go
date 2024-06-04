@@ -25,6 +25,7 @@
 {{ if $setup }}
 {{sendMessage nil "Doing stuff post check!" }}
 {{ $embed.Set "title" "How do I setup ModMail" }}
+{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see advanced setup information") }}
 {{ $embed.Set "fields" (cslice (sdict 
 		"name" "Initial Setup"
 		"value" "**1.** [Invite the bot](https://modmail.xyz/invite).\n**2.** Run `=setup` in your server.\n**3.** Done! :tada:\n\nYou can use `=help` for a [list of commands.](https://modmail.xyz/commands)"
@@ -36,7 +37,7 @@
 		)
 	)}}
 {{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-{{addMessageReactions nil $msgID (cslice ":modmail:")}}
+{{addMessageReactions nil $msgID (cslice ":modmail:702099194701152266")}}
 {{editMessage nil $msgID (complexMessageEdit "embed" $embed.fields.Append (sdict 
 	"name" "Advanced Setup" 
 	"value" "Some additional commands you could use are:" 
@@ -73,19 +74,27 @@
 {{ if $ticket }}
 {{sendMessage nil "Doing stuff post check!" }}
 {{ $embed.Set "title" "How do I open a ticket?" }}
+{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see advanced setup information") }}
 {{ $embed.Set "fields" (cslice (sdict 
 		"name" "Method One: Message the Bot" 
 		"value" "The quickest and simplest way to open a ticket is to DM the bot a message and follow the given prompts."
 		"inline" false
-		) (sdict 
-			"name" "Method Two: Using a command in DMs" 
-			"value" "You can use `=send <server ID> <message>` to create a ticket on a specific server. You still actually need to be a member of that server and ModMail still needs to be on the server as well, but this skips the server selection menu, which we know can confuse some people."
-		) (sdict 
-			"name" "Bonus Information: `=confirmation` command" 
-			"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
-		)
+	) (sdict 
+		"name" "Method Two: Using a command in DMs" 
+		"value" "You can use `=send <server ID> <message>` to create a ticket on a specific server. You still actually need to be a member of that server and ModMail still needs to be on the server as well, but this skips the server selection menu, which we know can confuse some people."
+	)
 	)}}
-{{ $msg := sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+{{ $msgID := sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+{{addMessageReactions nil $msgID (cslice ":modmail:702099194701152266")}}
+{{editMessage nil $msgID (complexMessageEdit "embed" $embed.fields.Append (sdict 
+	"name" "Bonus Information: `=confirmation` command" 
+	"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
+	"inline" false
+	) (sdict
+		"name" "Note"
+		"value" "If you are having trouble with the `=send` command, please ensure you are using the correct server ID. You can find this by right-clicking on the server name and selecting `Copy ID`."
+		"inline" false
+	) ) }}
 {{ $alreadyreplied:=false }}
 {{ end }}
 
