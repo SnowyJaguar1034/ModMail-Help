@@ -109,7 +109,8 @@
 		"name" "Bonus Information: `=confirmation` command" 
 		"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
 		"inline" false
-		) (sdict
+		)}}
+	{{ $embed.Set "fields" ($embed.fields.Append (sdict
 			"name" "Note"
 			"value" "If you are having trouble with the `=send` command, please ensure you are using the correct server ID. You can find this by right-clicking on the server name and selecting `Copy ID`."
 			"inline" false
