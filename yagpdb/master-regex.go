@@ -148,10 +148,19 @@
 			{{ $embed.Set $k $v}}
 			{{ end }}
 	{{ $embed.Set "title" "ModMail Custom Instance" }}
-	{{ $embed.Set "description" "You can contact <@381998065327931392> (James [a_leon]#6196) or <@365262543872327681> (snowyjaguar#0) for a custom instance. The pricing is $60/year." }}
 	{{ $embed.Set "fields" (cslice (sdict 
 			"name" "Custom Instance Benefits" 
-			"value" "- Custom username, avatar, status message and status activity type.\n- All the premium features listed [here](https://modmail.xyz/premium).\n- No confirmation messages.\n- Commands to create tickets with users.\n- Requiring a command to send messages.\n- Showing users roles in 'New Ticket' messages"
+			"value" "- Custom username, avatar, status message and status activity type.\n- All the [premium features](https://modmail.xyz/premium).\n- No confirmation messages.\n- Commands to create tickets with users.\n- Bypass verfication."
+			"inline" false
+		))}}
+		{{ $embed.Set "fields" (cslice (sdict 
+			"name" "Fee" 
+			"value" "The fee is $60/year. This is a single payment and you will not be charged again until the next year."
+			"inline" false
+		))}}
+		{{ $embed.Set "fields" (cslice (sdict 
+			"name" "Contact" 
+			"value" "<@381998065327931392> (James [a_leon]) or <@365262543872327681> (snowyjaguar)"
 			"inline" false
 		))}}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
@@ -163,7 +172,7 @@
 		{{ range $k, $v := $template }}
 			{{ $embed.Set $k $v}}
 			{{ end }}
-	{{ $embed.Set "title" "My message was delivered!" }}
+	{{ $embed.Set "title" "My message wasn't delivered!" }}
 	{{ $embed.Set "description" "If you receive \"your message could not be delivered\", check your privacy settings for the server you want to contact server. You need to enable the \"allow direct messages from server members\" option." }}
 	{{ $embed.Set "image" (sdict "url" "https://media.discordapp.net/attachments/576764854673735680/837129125327011860/unknown.png") }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
