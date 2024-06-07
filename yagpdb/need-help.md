@@ -1,4 +1,4 @@
-Regex: why won\'t anyone help me|i need (?:support|help)|support me|help me
+Regex: (why won\'t anyone help me|i need (?:support|help)|support me|help me)
 
 Options:
 why won't anyone help me
