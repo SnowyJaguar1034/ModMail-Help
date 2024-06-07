@@ -14,8 +14,8 @@
 {{ $noresponse := reFindAllSubmatches `(?:doesn't (?:seem to )?work|doesn't respond|isn(?:'t (?:respond|working)|t (?:respond|working))|no respon(?:se|d))$` .Message.Content }}
 {{ $custom := reFindAllSubmatches `(?:bypass verif(?:ication|y)|private (?:instance|bot)|no verif(?:ication|y)|custom (?:instance|bot)|bot(?:'s (?:profil|nam)|s (?:profil|nam)| (?:profil|nam))e|bot(?:'s (?:avatar|banner|status|user|pfp)|s (?:avatar|banner|status|user|pfp)| (?:avatar|banner|status|user|pfp))|bot(?:'s|s?) icon)$` .Message.Content }}
 {{ $clyde := reFindAllSubmatches `(?i:only accepting (?:direct message|dm)s from friends|message (?:(?:could not be|not) delivered|blocked)|(?:don't share a|no (?:shared|mutual)) server|clyde(?:[- ]bot)?|i(?:'| a)?m blocked|bot blocked me)$` .Message.Content }}
-{{ $globalticket := reFindAllSubmatches `` .Message.Content }}
-{{ $help := reFindAllSubmatches `` .Message.Content }}
+{{ $globalticket := reFindAllSubmatches `(ticket|tickets|everyone) (can|see|sees|see's) (the )?(mail|ticket|tickets|my mail|mod mail|modmail|mod-mail) message$` .Message.Content }}
+{{ $help := reFindAllSubmatches `i need help` .Message.Content }}
 
 {{ if $banned }}
 	{{ $embed := sdict }}
