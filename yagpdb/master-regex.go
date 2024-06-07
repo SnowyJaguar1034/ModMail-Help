@@ -34,7 +34,7 @@
 		{{ $embed.Set $k $v}}
 		{{ end }}
 	{{ $embed.Set "title" "How do I setup ModMail" }}
-	{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see advanced setup information") }}
+	{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see bonus information") }}
 	{{ $embed.Set "fields" (cslice (sdict 
 			"name" "Initial Setup"
 			"value" "**1.** [Invite the bot](https://modmail.xyz/invite).\n**2.** Run `=setup` in your server.\n**3.** Done! :tada:\n\nYou can use `=help` for a [list of commands.](https://modmail.xyz/commands)"
@@ -93,7 +93,7 @@
 		{{ $embed.Set $k $v}}
 		{{ end }}
 	{{ $embed.Set "title" "How do I open a ticket?" }}
-	{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see advanced setup information") }}
+	{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see bonus information") }}
 	{{ $embed.Set "fields" (cslice (sdict 
 			"name" "Method One: Message the Bot" 
 			"value" "The quickest and simplest way to open a ticket is to DM the bot a message and follow the given prompts."
@@ -103,7 +103,7 @@
 			"value" "You can use `=send <server ID> <message>` to create a ticket on a specific server. You still actually need to be a member of that server and ModMail still needs to be on the server as well, but this skips the server selection menu, which we know can confuse some people."
 		)
 		)}}
-	{{ $msgID := sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
 	{{addMessageReactions nil $msgID (cslice ":modmail:702099194701152266")}}
 	{{editMessage nil $msgID (complexMessageEdit "embed" ($embed.fields.Append (sdict 
 		"name" "Bonus Information: `=confirmation` command" 
@@ -183,7 +183,7 @@
 		{{ range $k, $v := $template }}
 			{{ $embed.Set $k $v}}
 			{{ end }}
-	{{ $embed.Set "title" "Need help trigger" }}
-	{{ $embed.Set "description" "" }}
+	{{ $embed.Set "title" "Don't just say `i need help`, tell us what you need help with!" }}
+	{{ $embed.Set "description" "[This saves all of us time and we can jump in to provide you with a solution!](https://dontasktoask.com/)" }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
 	{{ end }}
