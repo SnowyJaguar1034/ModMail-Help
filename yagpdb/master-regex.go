@@ -13,7 +13,7 @@
 {{ $premium := reFindAllSubmatches `(?:message logs|(?:transcrip|snippe)ts|p(?:atreon|remium)|donate)$` .Message.Content }}
 {{ $noresponse := reFindAllSubmatches `(?:doesn't (?:seem to )?work|doesn't respond|isn(?:'t (?:respond|working)|t (?:respond|working))|no respon(?:se|d))$` .Message.Content }}
 {{ $custom := reFindAllSubmatches `(?:bypass verif(?:ication|y)|private (?:instance|bot)|no verif(?:ication|y)|custom (?:instance|bot)|bot(?:'s (?:profil|nam)|s (?:profil|nam)| (?:profil|nam))e|bot(?:'s (?:avatar|banner|status|user|pfp)|s (?:avatar|banner|status|user|pfp)| (?:avatar|banner|status|user|pfp))|bot(?:'s|s?) icon)$` .Message.Content }}
-{{ $clyde := reFindAllSubmatches `` .Message.Content }}
+{{ $clyde := reFindAllSubmatches `(?i:only accepting (?:direct message|dm)s from friends|message (?:(?:could not be|not) delivered|blocked)|(?:don't share a|no (?:shared|mutual)) server|clyde(?:[- ]bot)?|i(?:'| a)?m blocked|bot blocked me)$` .Message.Content }}
 {{ $globalticket := reFindAllSubmatches `` .Message.Content }}
 {{ $help := reFindAllSubmatches `` .Message.Content }}
 
@@ -29,7 +29,10 @@
 	{{ end }}
 
 {{ if $setup }}
-	{{ $embed := $template }}
+	{{ $embed := sdict }}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+		{{ end }}
 	{{ $embed.Set "title" "How do I setup ModMail" }}
 	{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see advanced setup information") }}
 	{{ $embed.Set "fields" (cslice (sdict 
@@ -85,81 +88,102 @@
 
 
 {{ if $ticket }}
-{{ $embed := $template }}
-{{ $embed.Set "title" "How do I open a ticket?" }}
-{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see advanced setup information") }}
-{{ $embed.Set "fields" (cslice (sdict 
-		"name" "Method One: Message the Bot" 
-		"value" "The quickest and simplest way to open a ticket is to DM the bot a message and follow the given prompts."
+	{{ $embed := sdict }}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+		{{ end }}
+	{{ $embed.Set "title" "How do I open a ticket?" }}
+	{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see advanced setup information") }}
+	{{ $embed.Set "fields" (cslice (sdict 
+			"name" "Method One: Message the Bot" 
+			"value" "The quickest and simplest way to open a ticket is to DM the bot a message and follow the given prompts."
+			"inline" false
+		) (sdict 
+			"name" "Method Two: Using a command in DMs" 
+			"value" "You can use `=send <server ID> <message>` to create a ticket on a specific server. You still actually need to be a member of that server and ModMail still needs to be on the server as well, but this skips the server selection menu, which we know can confuse some people."
+		)
+		)}}
+	{{ $msgID := sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{addMessageReactions nil $msgID (cslice ":modmail:702099194701152266")}}
+	{{editMessage nil $msgID (complexMessageEdit "embed" ($embed.fields.Append (sdict 
+		"name" "Bonus Information: `=confirmation` command" 
+		"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
 		"inline" false
-	) (sdict 
-		"name" "Method Two: Using a command in DMs" 
-		"value" "You can use `=send <server ID> <message>` to create a ticket on a specific server. You still actually need to be a member of that server and ModMail still needs to be on the server as well, but this skips the server selection menu, which we know can confuse some people."
-	)
-	)}}
-{{ $msgID := sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
-{{addMessageReactions nil $msgID (cslice ":modmail:702099194701152266")}}
-{{editMessage nil $msgID (complexMessageEdit "embed" ($embed.fields.Append (sdict 
-	"name" "Bonus Information: `=confirmation` command" 
-	"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
-	"inline" false
-	) (sdict
-		"name" "Note"
-		"value" "If you are having trouble with the `=send` command, please ensure you are using the correct server ID. You can find this by right-clicking on the server name and selecting `Copy ID`."
-		"inline" false
-	) )) }}
-{{ $alreadyreplied:=false }}
-{{ end }}
+		) (sdict
+			"name" "Note"
+			"value" "If you are having trouble with the `=send` command, please ensure you are using the correct server ID. You can find this by right-clicking on the server name and selecting `Copy ID`."
+			"inline" false
+		) )) }}
+	{{ $alreadyreplied:=false }}
+	{{ end }}
 
 {{ if and $premium ( not (hasPrefix .Message.Content "=")) }}
-{{ $embed := $template }}
-{{ $embed.Set "title" "Donation Link" }}
-{{ $embed.Set "description" "[Purchase ModMail Premium Here](https://modmail.xyz/premium)" }}
-{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
-{{ $alreadyreplied := true }}
-{{ end }}
+	{{ $embed := sdict }}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+		{{ end }}
+	{{ $embed.Set "title" "Donation Link" }}
+	{{ $embed.Set "description" "[Purchase ModMail Premium Here](https://modmail.xyz/premium)" }}
+	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $alreadyreplied := true }}
+	{{ end }}
 
 {{ if and $noresponse }}
-{{ $embed := $template }}
-{{ $embed.Set "title" "ModMail is not responding" }}
-{{ $embed.Set "description" "If ModMail is not responding in your server, please check the following:\n- The bot has Read Messages, Send Messages, and Embed Links permissions.\n- You are using the correct prefix. Use `@ModMail prefix` to check the prefix.\n- The command you are using is valid. Check using `=help <command>`.\n- The bot is online. Discord might be having issues, or the bot might be restarting.\n\nIf the bot still does respond, please let us know your [server ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)." }}
-{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
-{{ $alreadyreplied := true }}
-{{ end }}
+	{{ $embed := sdict }}
+		{{ range $k, $v := $template }}
+			{{ $embed.Set $k $v}}
+			{{ end }}
+	{{ $embed.Set "title" "ModMail is not responding" }}
+	{{ $embed.Set "description" "If ModMail is not responding in your server, please check the following:\n- The bot has Read Messages, Send Messages, and Embed Links permissions.\n- You are using the correct prefix. Use `@ModMail prefix` to check the prefix.\n- The command you are using is valid. Check using `=help <command>`.\n- The bot is online. Discord might be having issues, or the bot might be restarting.\n\nIf the bot still does respond, please let us know your [server ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)." }}
+	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $alreadyreplied := true }}
+	{{ end }}
 
 {{ if $custom }}
-{{ $embed := $template }}
-{{ $embed.Set "title" "ModMail Custom Instance" }}
-{{ $embed.Set "description" "You can contact <@381998065327931392> (James [a_leon]#6196) or <@365262543872327681> (snowyjaguar#0) for a custom instance. The pricing is $60/year." }}
-{{ $embed.Set "fields" (cslice (sdict 
-		"name" "Custom Instance Benefits" 
-		"value" "- Custom username, avatar, status message and status activity type.\n- All the premium features listed [here](https://modmail.xyz/premium).\n- No confirmation messages.\n- Commands to create tickets with users.\n- Requiring a command to send messages.\n- Showing users roles in 'New Ticket' messages"
-		"inline" false
-	))}}
-{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
-{{ $alreadyreplied := true }}
-{{ end }}
+	{{ $embed := sdict }}
+		{{ range $k, $v := $template }}
+			{{ $embed.Set $k $v}}
+			{{ end }}
+	{{ $embed.Set "title" "ModMail Custom Instance" }}
+	{{ $embed.Set "description" "You can contact <@381998065327931392> (James [a_leon]#6196) or <@365262543872327681> (snowyjaguar#0) for a custom instance. The pricing is $60/year." }}
+	{{ $embed.Set "fields" (cslice (sdict 
+			"name" "Custom Instance Benefits" 
+			"value" "- Custom username, avatar, status message and status activity type.\n- All the premium features listed [here](https://modmail.xyz/premium).\n- No confirmation messages.\n- Commands to create tickets with users.\n- Requiring a command to send messages.\n- Showing users roles in 'New Ticket' messages"
+			"inline" false
+		))}}
+	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $alreadyreplied := true }}
+	{{ end }}
 
 {{ if $clyde }}
-{{ $embed := $template }}
-{{ $embed.Set "title" "My message was delivered!" }}
-{{ $embed.Set "description" "If you receive \"your message could not be delivered\", check your privacy settings for the server you want to contact server. You need to enable the \"allow direct messages from server members\" option." }}
-{{ $embed.Set "image" (sdict "url" "https://media.discordapp.net/attachments/576764854673735680/837129125327011860/unknown.png") }}
-{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
-{{ $alreadyreplied := true }}
-{{ end }}
+	{{ $embed := sdict }}
+		{{ range $k, $v := $template }}
+			{{ $embed.Set $k $v}}
+			{{ end }}
+	{{ $embed.Set "title" "My message was delivered!" }}
+	{{ $embed.Set "description" "If you receive \"your message could not be delivered\", check your privacy settings for the server you want to contact server. You need to enable the \"allow direct messages from server members\" option." }}
+	{{ $embed.Set "image" (sdict "url" "https://media.discordapp.net/attachments/576764854673735680/837129125327011860/unknown.png") }}
+	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $alreadyreplied := true }}
+	{{ end }}
 
 {{ if $globalticket }}
-{{ $embed := $template }}
-{{ $embed.Set "title" "Everyone can see my tickets!" }}
-{{ $embed.Set "description" "If everyone in your server is able to view tickets, there is a chance that another bot in your server is interfering. This is not a problem with ModMail. We recommend checking the audit logs in your server settings to see which bot is changing the channel permissions." }}
-{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
-{{ $alreadyreplied := true }}
-{{ end }}
+	{{ $embed := sdict }}
+		{{ range $k, $v := $template }}
+			{{ $embed.Set $k $v}}
+			{{ end }}
+	{{ $embed.Set "title" "Everyone can see my tickets!" }}
+	{{ $embed.Set "description" "If everyone in your server is able to view tickets, there is a chance that another bot in your server is interfering. This is not a problem with ModMail. We recommend checking the audit logs in your server settings to see which bot is changing the channel permissions." }}
+	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $alreadyreplied := true }}
+	{{ end }}
 
 {{ if and $help ( not $alreadyreplied) }}
-{{ $embed := $template }}
-{{ $embed.Set "title" "Need help trigger" }}
-{{ $embed.Set "description" "" }}
-{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
-{{ end }}
+	{{ $embed := sdict }}
+		{{ range $k, $v := $template }}
+			{{ $embed.Set $k $v}}
+			{{ end }}
+	{{ $embed.Set "title" "Need help trigger" }}
+	{{ $embed.Set "description" "" }}
+	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ end }}
