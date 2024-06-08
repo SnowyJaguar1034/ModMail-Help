@@ -12,8 +12,7 @@
 {{ $ticket := reFindAllSubmatches `(?:m(?:essage (?:a )?server|sg (?:a )?server)|c(?:reate (?:a )?ticket|ustom commands)|open (?:a )?ticket)` .Message.Content }}
 {{ $premium := reFindAllSubmatches `(?:message logs|(?:transcrip|snippe)ts|p(?:atreon|remium)|donate)` .Message.Content }}
 {{ $noresponse := reFindAllSubmatches `(?:doesn't (?:seem to )?work|doesn't respond|isn(?:'t (?:respond|working)|t (?:respond|working))|no respon(?:se|d))` .Message.Content }}
-{{ $custom := reFindAllSubmatches `(?i)(?:
-	bots? (?:user|name|p(?:rofile|fp)|banner|icon|avatar|status)|bot's (?:user|name|p(?:rofile|fp)|banner|icon|avatar|status|pfp)|change (?:the )?(?:name|p(?:rofile|fp)|banner|icon|avatar|status)|custom(?:om?i(?:ze|se) (?:the )?)?(?:name|p(?:rofile|fp)|banner|icon|avatar|status|instance|bot)|private (?:instance|bot)|no verif(?:ication|y)|bypass verif(?:ication|y))` .Message.Content }}
+{{ $custom := reFindAllSubmatches `(?i)(?:bots? (?:user|name|profile|banner|icon|avatar|pfp|status)|bot(?:'s)? (?:user|name|profile|banner|icon|avatar|pfp|status)|change(?: the)? (?:name|profile|banner|icon|avatar|pfp|status)|custom(?:ize|ise)(?: the)? (?:name|profile|banner|icon|avatar|pfp|status|instance|bot)|private (?:instance|bot)|no verif(?:ication|y)|bypass verif(?:ication|y))` .Message.Content }}
 {{ $selfhost := reFindAllSubmatches `(?i)(?:source|modmails?|bots?|bot's?|self(?:-)?host|host (?:modmail|bot)|(?:best|recommended|which) (?:virtual(?: private)? )?server)(?:'s)?(?: code| repo| github)` .Message.Content }}
 {{ $clyde := reFindAllSubmatches `(?i:only accepting (?:direct message|dm)s from friends|message (?:(?:could not be|not) delivered|blocked)|(?:don't share a|no (?:shared|mutual)) server|clyde(?:[- ]bot)?|i(?:'| a)?m blocked|bot blocked me)` .Message.Content }}
 {{ $globalticket := reFindAllSubmatches `(ticket|tickets|everyone) (can|see|sees|see's) (the )?(mail|ticket|tickets|my mail|mod mail|modmail|mod-mail) message` .Message.Content }}

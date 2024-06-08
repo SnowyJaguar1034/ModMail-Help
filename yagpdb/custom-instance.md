@@ -1,15 +1,7 @@
 # Trigger Regex
 
 ```regex
-(?i)(?:
-  bots? (?:user|name|p(?:rofile|fp)|banner|icon|avatar|status)|
-  bot's (?:user|name|p(?:rofile|fp)|banner|icon|avatar|status|pfp)|
-  change (?:the )?(?:name|p(?:rofile|fp)|banner|icon|avatar|status)|
-  custom(?:om?i(?:ze|se) (?:the )?)?(?:name|p(?:rofile|fp)|banner|icon|avatar|status|instance|bot)|
-  private (?:instance|bot)|
-  no verif(?:ication|y)|
-  bypass verif(?:ication|y)
-)
+(?i)(?:bots? (?:user|name|profile|banner|icon|avatar|pfp|status)|bot(?:'s)? (?:user|name|profile|banner|icon|avatar|pfp|status)|change(?: the)? (?:name|profile|banner|icon|avatar|pfp|status)|custom(?:ize|ise)(?: the)? (?:name|profile|banner|icon|avatar|pfp|status|instance|bot)|private (?:instance|bot)|no verif(?:ication|y)|bypass verif(?:ication|y))
 ```
 
 # Trigger Phrases
@@ -59,45 +51,45 @@
 - custom instance
 - custom bot
 -
-- customomize name
-- customomize profile
-- customomize banner
-- customomize icon
-- customomize avatar
-- customomize pfp
-- customomize status
-- customomize instance
-- customomize bot
+- customize name
+- customize profile
+- customize banner
+- customize icon
+- customize avatar
+- customize pfp
+- customize status
+- customize instance
+- customize bot
 -
-- customomise name
-- customomise profile
-- customomise banner
-- customomise icon
-- customomise avatar
-- customomise pfp
-- customomise status
-- customomise instance
-- customomise bot
+- customise name
+- customise profile
+- customise banner
+- customise icon
+- customise avatar
+- customise pfp
+- customise status
+- customise instance
+- customise bot
 -
-- customomize the name
-- customomize the profile
-- customomize the banner
-- customomize the icon
-- customomize the avatar
-- customomize the pfp
-- customomize the status
-- customomize the instance
-- customomize the bot
+- customize the name
+- customize the profile
+- customize the banner
+- customize the icon
+- customize the avatar
+- customize the pfp
+- customize the status
+- customize the instance
+- customize the bot
 -
-- customomise the name
-- customomise the profile
-- customomise the banner
-- customomise the icon
-- customomise the avatar
-- customomise the pfp
-- customomise the status
-- customomise the instance
-- customomise the bot
+- customise the name
+- customise the profile
+- customise the banner
+- customise the icon
+- customise the avatar
+- customise the pfp
+- customise the status
+- customise the instance
+- customise the bot
 -
 - change the name
 - change the profile
