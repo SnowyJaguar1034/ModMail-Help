@@ -14,9 +14,11 @@
 {{ $noresponse := reFindAllSubmatches `(?:doesn't (?:seem to )?work|doesn't respond|isn(?:'t (?:respond|working)|t (?:respond|working))|no respon(?:se|d))` .Message.Content }}
 {{ $custom := reFindAllSubmatches `(?i)(?:
 	bots? (?:user|name|p(?:rofile|fp)|banner|icon|avatar|status)|bot's (?:user|name|p(?:rofile|fp)|banner|icon|avatar|status|pfp)|change (?:the )?(?:name|p(?:rofile|fp)|banner|icon|avatar|status)|custom(?:om?i(?:ze|se) (?:the )?)?(?:name|p(?:rofile|fp)|banner|icon|avatar|status|instance|bot)|private (?:instance|bot)|no verif(?:ication|y)|bypass verif(?:ication|y))` .Message.Content }}
+{{ $selfhost := reFindAllSubmatches `(?i)(?:source|modmails?|bots?|bot's?|self(?:-)?host|host (?:modmail|bot)|(?:best|recommended|which) (?:virtual(?: private)? )?server)(?:'s)?(?: code| repo| github)` .Message.Content }}
 {{ $clyde := reFindAllSubmatches `(?i:only accepting (?:direct message|dm)s from friends|message (?:(?:could not be|not) delivered|blocked)|(?:don't share a|no (?:shared|mutual)) server|clyde(?:[- ]bot)?|i(?:'| a)?m blocked|bot blocked me)` .Message.Content }}
 {{ $globalticket := reFindAllSubmatches `(ticket|tickets|everyone) (can|see|sees|see's) (the )?(mail|ticket|tickets|my mail|mod mail|modmail|mod-mail) message` .Message.Content }}
-{{ $help := reFindAllSubmatches `(?:i need (?:support|help|assistance|aid|advice)|(?:anyone |need )?help me|support me|need help)` .Message.Content }}
+{{ $help := reFindAllSubmatches `(?i)(?:need (?:support|help|assistance|aid|advice)|(?:help|support) me)` .Message.Content }}
+
 
 {{ if $banned }}
 	{{ $embed := sdict }}
@@ -163,7 +165,29 @@
 		"inline" true
 	))}}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $alreadyreplied := true }}
+	{{ end }}
 
+	{{ if $selfhost }}
+	{{ $embed := sdict }}
+		{{ range $k, $v := $template }}
+			{{ $embed.Set $k $v}}
+			{{ end }}
+	{{ $embed.Set "title" "ModMail Self Hosting" }}
+	{{ $embed.Set "fields" (cslice (sdict 
+		"name" "Custom Instance Benefits" 
+		"value" "- Custom username, avatar, status message and status activity type.\n- All the [premium features](https://modmail.xyz/premium).\n- No confirmation messages.\n- Commands to create tickets with users.\n- Bypass verfication."
+		"inline" false
+	) (sdict 
+		"name" "Fee" 
+		"value" "The fee is $60/year.\nThis is a single payment and you will not be charged again until the next year."
+		"inline" true
+	) (sdict 
+		"name" "Contact" 
+		"value" "<@381998065327931392> (`James [a_leon]`)\nor\n<@365262543872327681> (`snowyjaguar`)"
+		"inline" true
+	))}}
+	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
 	{{ $alreadyreplied := true }}
 	{{ end }}
 
