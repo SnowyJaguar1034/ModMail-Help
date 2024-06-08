@@ -8,14 +8,15 @@
 
 {{/* Regexes to match, pulled from the existing commands */}}
 {{ $banned := reFindAllSubmatches `(?i)ban|racefactory|bloxburg|appeal` .Message.Content }}
-{{ $setup := reFindAllSubmatches `(?i:modmail (?i:invite|joined|setup|added)|invite modmail|setup modmail|added modmail|setup bot|bot setup|bot added|setup)$` .Message.Content }}
-{{ $ticket := reFindAllSubmatches `(?:m(?:essage (?:a )?server|sg (?:a )?server)|c(?:reate (?:a )?ticket|ustom commands)|open (?:a )?ticket)$` .Message.Content }}
-{{ $premium := reFindAllSubmatches `(?:message logs|(?:transcrip|snippe)ts|p(?:atreon|remium)|donate)$` .Message.Content }}
-{{ $noresponse := reFindAllSubmatches `(?:doesn't (?:seem to )?work|doesn't respond|isn(?:'t (?:respond|working)|t (?:respond|working))|no respon(?:se|d))$` .Message.Content }}
-{{ $custom := reFindAllSubmatches `(?:bypass verif(?:ication|y)|private (?:instance|bot)|no verif(?:ication|y)|custom (?:instance|bot)|bot(?:'s (?:profil|nam)|s (?:profil|nam)| (?:profil|nam))e|bot(?:'s (?:avatar|banner|status|user|pfp)|s (?:avatar|banner|status|user|pfp)| (?:avatar|banner|status|user|pfp))|bot(?:'s|s?) icon)$` .Message.Content }}
-{{ $clyde := reFindAllSubmatches `(?i:only accepting (?:direct message|dm)s from friends|message (?:(?:could not be|not) delivered|blocked)|(?:don't share a|no (?:shared|mutual)) server|clyde(?:[- ]bot)?|i(?:'| a)?m blocked|bot blocked me)$` .Message.Content }}
-{{ $globalticket := reFindAllSubmatches `(ticket|tickets|everyone) (can|see|sees|see's) (the )?(mail|ticket|tickets|my mail|mod mail|modmail|mod-mail) message$` .Message.Content }}
-{{ $help := reFindAllSubmatches `(why won\'t anyone help me|i need (?:support|help)|support me|help me)` .Message.Content }}
+{{ $setup := reFindAllSubmatches `(?i:modmail (?i:invite|joined|setup|added)|invite modmail|setup modmail|added modmail|setup bot|bot setup|bot added|setup)` .Message.Content }}
+{{ $ticket := reFindAllSubmatches `(?:m(?:essage (?:a )?server|sg (?:a )?server)|c(?:reate (?:a )?ticket|ustom commands)|open (?:a )?ticket)` .Message.Content }}
+{{ $premium := reFindAllSubmatches `(?:message logs|(?:transcrip|snippe)ts|p(?:atreon|remium)|donate)` .Message.Content }}
+{{ $noresponse := reFindAllSubmatches `(?:doesn't (?:seem to )?work|doesn't respond|isn(?:'t (?:respond|working)|t (?:respond|working))|no respon(?:se|d))` .Message.Content }}
+{{ $custom := reFindAllSubmatches `(?i)(?:
+	bots? (?:user|name|p(?:rofile|fp)|banner|icon|avatar|status)|bot's (?:user|name|p(?:rofile|fp)|banner|icon|avatar|status|pfp)|change (?:the )?(?:name|p(?:rofile|fp)|banner|icon|avatar|status)|custom(?:om?i(?:ze|se) (?:the )?)?(?:name|p(?:rofile|fp)|banner|icon|avatar|status|instance|bot)|private (?:instance|bot)|no verif(?:ication|y)|bypass verif(?:ication|y))` .Message.Content }}
+{{ $clyde := reFindAllSubmatches `(?i:only accepting (?:direct message|dm)s from friends|message (?:(?:could not be|not) delivered|blocked)|(?:don't share a|no (?:shared|mutual)) server|clyde(?:[- ]bot)?|i(?:'| a)?m blocked|bot blocked me)` .Message.Content }}
+{{ $globalticket := reFindAllSubmatches `(ticket|tickets|everyone) (can|see|sees|see's) (the )?(mail|ticket|tickets|my mail|mod mail|modmail|mod-mail) message` .Message.Content }}
+{{ $help := reFindAllSubmatches `(?:i need (?:support|help|assistance|aid|advice)|(?:anyone |need )?help me|support me|need help)` .Message.Content }}
 
 {{ if $banned }}
 	{{ $embed := sdict }}
@@ -154,12 +155,12 @@
 		"inline" false
 	) (sdict 
 		"name" "Fee" 
-		"value" "The fee is $60/year. This is a single payment and you will not be charged again until the next year."
-		"inline" false
+		"value" "The fee is $60/year.\nThis is a single payment and you will not be charged again until the next year."
+		"inline" true
 	) (sdict 
 		"name" "Contact" 
-		"value" "<@381998065327931392> (`James [a_leon]`) or <@365262543872327681> (`snowyjaguar`)"
-		"inline" false
+		"value" "<@381998065327931392> (`James [a_leon]`)\nor\n<@365262543872327681> (`snowyjaguar`)"
+		"inline" true
 	))}}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
 
