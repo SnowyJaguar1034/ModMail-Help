@@ -149,21 +149,20 @@
 			{{ end }}
 	{{ $embed.Set "title" "ModMail Custom Instance" }}
 	{{ $embed.Set "fields" (cslice (sdict 
-			"name" "Custom Instance Benefits" 
-			"value" "- Custom username, avatar, status message and status activity type.\n- All the [premium features](https://modmail.xyz/premium).\n- No confirmation messages.\n- Commands to create tickets with users.\n- Bypass verfication."
-			"inline" false
-		))}}
-		{{ $embed.Set "fields" (cslice (sdict 
-			"name" "Fee" 
-			"value" "The fee is $60/year. This is a single payment and you will not be charged again until the next year."
-			"inline" false
-		))}}
-		{{ $embed.Set "fields" (cslice (sdict 
-			"name" "Contact" 
-			"value" "<@381998065327931392> (James [a_leon]) or <@365262543872327681> (snowyjaguar)"
-			"inline" false
-		))}}
+		"name" "Custom Instance Benefits" 
+		"value" "- Custom username, avatar, status message and status activity type.\n- All the [premium features](https://modmail.xyz/premium).\n- No confirmation messages.\n- Commands to create tickets with users.\n- Bypass verfication."
+		"inline" false
+	) (sdict 
+		"name" "Fee" 
+		"value" "The fee is $60/year. This is a single payment and you will not be charged again until the next year."
+		"inline" false
+	) (sdict 
+		"name" "Contact" 
+		"value" "<@381998065327931392> (James [a_leon]) or <@365262543872327681> (snowyjaguar)"
+		"inline" false
+	))}}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+
 	{{ $alreadyreplied := true }}
 	{{ end }}
 
