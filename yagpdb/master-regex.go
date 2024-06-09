@@ -2,6 +2,7 @@
 {{ $template := sdict "color" 2003199 }}
 {{ $replytarget := .Message.ID }}
 {{ $alreadyreplied := false }}
+{{ $modmaillogo := ":modmail:702099194701152266" }}
 {{/* {{sendMessage nil "Doing stuff upon trigger!" }} */}}
 {{/* https://docs.yagpdb.xyz/reference/templates#templates.sdict */}}
 {{/* https://discord.com/channels/166207328570441728/578976698931085333/1248038506312237127 */}}
@@ -35,7 +36,7 @@
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
 		{{ end }}
-	{{ $embed.Set "title" "How do I setup ModMail" }}
+	{{ $embed.Set "title" "How do I setup ModMail?" }}
 	{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see bonus information") }}
 	{{ $embed.Set "fields" (cslice (sdict 
 			"name" "Initial Setup"
@@ -48,7 +49,7 @@
 			)
 		)}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{addMessageReactions nil $msgID (cslice ":modmail:702099194701152266")}}
+	{{ addMessageReactions nil $msgID (cslice $modmaillogo) }}
 	{{ $embed.Set "fields" ($embed.fields.Append (sdict 
 		"name" "Advanced Setup" 
 		"value" "Some additional commands you could use are:" 
@@ -84,7 +85,7 @@
 		"value" "For role names with a space, it needs to be in quotes (e.g. \"Head Admin\")"
 		"inline" false
 	))}}
-	{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
+	{{ editMessage nil $msgID (complexMessageEdit "embed" $embed) }}
 	{{ $alreadyreplied := true }}
 	{{ end }}
 
@@ -106,7 +107,7 @@
 		)
 		)}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{addMessageReactions nil $msgID (cslice ":modmail:702099194701152266")}}
+	{{ addMessageReactions nil $msgID (cslice $modmaillogo) }}
 	{{ $embed.Set "fields" ($embed.fields.Append (sdict
 		"name" "Bonus Information: `=confirmation` command" 
 		"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
