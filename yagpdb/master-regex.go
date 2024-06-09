@@ -161,7 +161,7 @@
 		"inline" true
 	) (sdict 
 		"name" "Contact" 
-		"value" "<@381998065327931392> (`James [a_leon]`)\nor\n<@365262543872327681> (`snowyjaguar`)"
+		"value" "|<@381998065327931392> (`James [a_leon]`)\n|or\n|<@365262543872327681> (`snowyjaguar`)"
 		"inline" true
 	))}}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
