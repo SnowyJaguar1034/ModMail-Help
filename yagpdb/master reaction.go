@@ -1,15 +1,15 @@
 {{ $modmaillogo := "modmail:702099194701152266" }}
 {{ $msgID := .ReactionMessage.ID }}
-
-{{sendMessage nil "Saw reaction <:.Reaction.APIName> get added to the message." }}
+{{ setupfields := (cslice (sdict ...
+{{ ticketfields := (cslice (sdict ...
 
 {{ if eq .Reaction.Emoji.APIName $modmaillogo }}
-	{{sendMessage nil "Passed first check as provided reaction (<:.Reaction.APIName) matches the expected reaction (<:modmail:702099194701152266>)." }}
 	{{ range .ReactionMessage.Embeds }}
 		{{ $embed := structToSdict . }}
 		{{ $embed.Set "Fields" (cslice.AppendSlice $embed.Fields) }}
 		{{ if eq $embed.Title "How do I setup ModMail?" }}
-			{{sendMessage nil "Passed second check as embed title matches the expected \"How do I setup ModMail?\"" }}
+			{{ range $setupfields }}
+				{{ if in . (not $embed.Fields) }}
 			{{ $embed.Set "Fields" ($embed.Fields.AppendSlice (cslice (sdict 
 				"name" "Advanced Setup" 
 				"value" "Some additional commands you could use are:" 
@@ -22,7 +22,8 @@
 			{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
 			{{ end }}
 		{{ if eq $embed.Title "How do I open a ticket?" }}
-			{{sendMessage nil "Passed second check as embed title matches the expected \"How do I open a ticket?\"" }}
+			    {{ range $ticketfields }}
+				{{ if in . (not $embed.Fields) }}
 			{{ $embed.Set "fields" (cslice (sdict
 				"name" "Bonus Information: `=confirmation` command" 
 				"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
