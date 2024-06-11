@@ -9,10 +9,6 @@
 	"value" "For configuring which roles get pinged upon a ModMail ticket being created."
 	"inline" true
 ) (sdict
-	"name" "`=pingrole <roles>`"
-	"value" "For configuring which roles get pinged upon a ModMail ticket being created."
-	"inline" true
-) (sdict
 	"name" "`=accessrole <roles>`"
 	"value" "For configuring which roles can reply to ModMail tickets."
 	"inline" true
@@ -34,23 +30,34 @@
 	"inline" false
 )) }}
 
+{{ $ticketfields := (cslice (sdict
+	"name" "Bonus Information: `=confirmation` command" 
+	"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
+	"inline" false
+)) }}
+
 {{ if eq .Reaction.Emoji.APIName $modmaillogo }}
 	{{ range .ReactionMessage.Embeds }}
+		{{ $currentfieldnames := cslice }}
+		{{ range .Fields }}
+			{{ $currentfieldnames = $currentfieldnames.Append .Name }}
+		{{ end }}
 		{{ $embed := structToSdict . }}
 		{{ $embed.Set "Fields" (cslice.AppendSlice $embed.Fields) }}
 		{{ if eq $embed.Title "How do I setup ModMail?" }}
-			{{ $embed.Set "Fields" ($embed.Fields.AppendSlice ($setupfields))}}
-			{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
+			{{ range $setupfields }}
+				{{ if not (in $currentfieldnames .name) }}
+					{{ $embed.Set "Fields" ($embed.Fields.Append .)}}
+				{{ end }}
 			{{ end }}
+		{{ end }}
 		{{ if eq $embed.Title "How do I open a ticket?" }}
-			{{ $embed.Set "fields" (cslice (sdict
-				"name" "Bonus Information: `=confirmation` command" 
-				"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
-				"inline" false
-				))}}
-			{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
-			{{ end }}
+			{{ $embed.Set "fields" ($ticketfields)}}
+		{{ end }}
+		{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
+		{{ sendMessage nil (complexMessage "file" (json $embed) ) }}
 	{{ end}}
 {{ end }}
 
-
+{{ $newfieldnames := cslice }}
+{{ $newfieldnames = $newfieldnames.Append .name }}
