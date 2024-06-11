@@ -1,40 +1,14 @@
 {{ $modmaillogo := "modmail:702099194701152266" }}
 {{ $msgID := .ReactionMessage.ID }}
-{{ setupfields := (cslice (sdict ...
-{{ ticketfields := (cslice (sdict ...
-
-{{ if eq .Reaction.Emoji.APIName $modmaillogo }}
-	{{ range .ReactionMessage.Embeds }}
-		{{ $embed := structToSdict . }}
-		{{ $embed.Set "Fields" (cslice.AppendSlice $embed.Fields) }}
-		{{ if eq $embed.Title "How do I setup ModMail?" }}
-			{{ range $setupfields }}
-				{{ if in . (not $embed.Fields) }}
-			{{ $embed.Set "Fields" ($embed.Fields.AppendSlice (cslice (sdict 
-				"name" "Advanced Setup" 
-				"value" "Some additional commands you could use are:" 
-				"inline" false
-			) (sdict
-				"name" "`=pingrole <roles>`"
-				"value" "For configuring which roles get pinged upon a ModMail ticket being created."
-				"inline" true
-			)))}}
-			{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
-			{{ end }}
-		{{ if eq $embed.Title "How do I open a ticket?" }}
-			    {{ range $ticketfields }}
-				{{ if in . (not $embed.Fields) }}
-			{{ $embed.Set "fields" (cslice (sdict
-				"name" "Bonus Information: `=confirmation` command" 
-				"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
-				"inline" false
-				))}}
-			{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
-			{{ end }}
-	{{ end}}
-{{ end }}
-
-(sdict
+{{ $setupfields := (cslice (sdict 
+	"name" "Advanced Setup" 
+	"value" "Some additional commands you could use are:" 
+	"inline" false
+) (sdict
+	"name" "`=pingrole <roles>`"
+	"value" "For configuring which roles get pinged upon a ModMail ticket being created."
+	"inline" true
+) (sdict
 	"name" "`=pingrole <roles>`"
 	"value" "For configuring which roles get pinged upon a ModMail ticket being created."
 	"inline" true
@@ -58,4 +32,25 @@
 	"name" "You can mention the roles, use role IDs or role names."
 	"value" "For role names with a space, it needs to be in quotes (e.g. \"Head Admin\")"
 	"inline" false
-)
+)) }}
+
+{{ if eq .Reaction.Emoji.APIName $modmaillogo }}
+	{{ range .ReactionMessage.Embeds }}
+		{{ $embed := structToSdict . }}
+		{{ $embed.Set "Fields" (cslice.AppendSlice $embed.Fields) }}
+		{{ if eq $embed.Title "How do I setup ModMail?" }}
+			{{ $embed.Set "Fields" ($embed.Fields.AppendSlice ($setupfields))}}
+			{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
+			{{ end }}
+		{{ if eq $embed.Title "How do I open a ticket?" }}
+			{{ $embed.Set "fields" (cslice (sdict
+				"name" "Bonus Information: `=confirmation` command" 
+				"value" "If you have enabled the `=confirmation` mode, you will not be given the server selection menu immediately and will instead be prompted to resume messaging the last server you contacted.\nThis prompt will contain an option to take you to the server selection menu if it's incorrect but you can also use `=new <message>` to force the server selection menu to appear."
+				"inline" false
+				))}}
+			{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
+			{{ end }}
+	{{ end}}
+{{ end }}
+
+
