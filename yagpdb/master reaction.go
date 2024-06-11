@@ -52,7 +52,11 @@
 			{{ end }}
 		{{ end }}
 		{{ if eq $embed.Title "How do I open a ticket?" }}
-			{{ $embed.Set "fields" ($ticketfields)}}
+			{{ range $ticketfields }}
+				{{ if not (in $currentfieldnames .name) }}
+					{{ $embed.Set "Fields" ($embed.Fields.Append .)}}
+				{{ end }}
+			{{ end }}
 		{{ end }}
 		{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
 		{{ sendMessage nil (complexMessage "file" (json $embed) ) }}
