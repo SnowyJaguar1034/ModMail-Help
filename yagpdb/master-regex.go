@@ -3,7 +3,7 @@
 {{ $replytarget := .Message.ID }}
 {{ $alreadyreplied := false }}
 {{ $modmaillogo := ":modmail:702099194701152266" }}
-{{ $bin := ":wastebasket:" }}
+{{ $bin := ":bin:1250547674562957313" }}
 {{/* {{sendMessage nil "Doing stuff upon trigger!" }} */}}
 {{/* https://docs.yagpdb.xyz/reference/templates#templates.sdict */}}
 {{/* https://discord.com/channels/166207328570441728/578976698931085333/1248038506312237127 */}}
