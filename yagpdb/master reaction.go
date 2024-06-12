@@ -1,6 +1,9 @@
+{{/* Declares the variables */}}
 {{ $modmaillogo := "modmail:702099194701152266" }}
 {{ $bin := "bin:1250547674562957313" }}
 {{ $msgID := .ReactionMessage.ID }}
+
+{{/* Declaring the new fields */}}
 {{ $setupfields := (cslice (sdict 
 	"name" "Advanced Setup" 
 	"value" "Some additional commands you could use are:" 
@@ -63,6 +66,9 @@
 	"inline" true
 ))}}
 
+{{ $titles : cslice (sdict "title" "How do I setup ModMail?" "fields" $setupfields) (sdict "title" "How do I open a ticket?" "fields" $ticketfields) (sdict "title" "How do I self-host ModMail?" "fields" $selfhosting) }}
+
+{{/* Checks if the reaction is the ModMail logo */}}
 {{ if eq .Reaction.Emoji.APIName $modmaillogo }}
 	{{ range .ReactionMessage.Embeds }}
 		{{ $currentfieldnames := cslice }}
@@ -98,6 +104,7 @@
 {{ end }}
 
 
+{{/* Checks if the reaction is the bin emoji */}}
 {{ if eq .Reaction.Emoji.APIName $bin }}
 	{{ deleteMessage nil .ReactionMessage.ID 0 }}
 {{ end }}
