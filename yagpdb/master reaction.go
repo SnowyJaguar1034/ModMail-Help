@@ -1,4 +1,5 @@
 {{ $modmaillogo := "modmail:702099194701152266" }}
+{{ $bin := ":wastebasket:" }}
 {{ $msgID := .ReactionMessage.ID }}
 {{ $setupfields := (cslice (sdict 
 	"name" "Advanced Setup" 
@@ -36,6 +37,32 @@
 	"inline" false
 )) }}
 
+{{ $selfhosting := (cslice (sdict 
+	"name" "Cheap VPS Providers" 
+	"value" "- [Scaleway | EU](https://www.scaleway.com)\n- [Linode | US, EU, Asia](https://www.linode.com)\n- [Digital Ocean | US](https://www.digitalocean.com)\n- [Vultr | US, EU, NA, SA, Asia](https://www.vultr.com)\n- [OVH | EU, Canada](https://www.ovh.co.uk)\n- [Hetzner | Germany, US](https://www.hetzner.com)\n- [Time4VPS | Lithuania](https://www.time4vps.eu)"
+	"inline" false
+) (sdict 
+	"name" "Free Hosting"
+	"value" "No. Not even heroku/repl.it"
+	"inline" true
+) (sdict 
+	"name" "Kinda Free hosting"
+	"value" "[GCP](https://cloud.google.com/gcp), [AWS](https://aws.amazon.com/ec2/) and [Azure](https://azure.microsoft.com/en-gb/free/) have one year free micros. Some are blanket free, some give you a pot of credits to use over the year. Many YouTubers run adverts for [Linode](https://www.linode.com) which give you $100 USD to spend over 90 days."
+	"inline" true
+) (sdict 
+	"name" "Self Host Locally"
+	"value" "Any modern hardware should be sufficient for running a bot. An old computer with a few GB of RAM could be suitable, or a Raspberry Pi (any model, except perhaps one of the particularly less powerful ones).\n**Note:** We don't recommend using Windows because it requires a drastic change to the scripts to support Windows file path structure, Windows can also be finicky about releasing the AVX2 instruction set which is required for ModMail to function."
+	"inline" false
+) (sdict 
+	"name" "🚩 Repli.it Hosting Red Flags 🚩"
+	"value" "While this may seem like a nice and free service, it has a lot more caveats than you might think, such as:\n- The machines are super underpowered.\n - This means your bot will lag a lot as it gets bigger.\n- You need to run a webserver alongside your bot to prevent it from being shut off. (I don't think this is an issue for ModMail).\n- Repl.it uses an ephemeral file system.\n - This means any file you saved via your bot will be overwritten when you next launch.\n- They use a shared IP for everything running on the service.\n - This one is important, if someone is running a user bot on their service and gets banned, everyone on that IP will be banned. **Including you.**"
+	"inline" true
+) (sdict 
+	"name" "🚩 Heroku 🚩"
+	"value" "- Bots are not what the platform is designed for.\n - Heroku is designed to provide web servers (like Django, Flask, etc). This is why they give you a domain name and open a port on their local emulator.\n- Heroku's environment is heavily containerized, making it significantly underpowered for a standard use case.\n- Heroku's environment is volatile.\n - In order to handle the insane amount of users trying to use it for their own applications, Heroku will dispose of your environment every time your application dies unless you pay.\n- Heroku has minimal system dependency control.\n - This is the reason why voice doesn't work natively on Heroku.\n- Heroku only offers a limited amount of time on their free program for your applications. If you exceed this limit, which you probably will, they'll shut down your application until your free credit resets."
+	"inline" true
+))}}
+
 {{ if eq .Reaction.Emoji.APIName $modmaillogo }}
 	{{ range .ReactionMessage.Embeds }}
 		{{ $currentfieldnames := cslice }}
@@ -58,10 +85,19 @@
 				{{ end }}
 			{{ end }}
 		{{ end }}
+		{{ if eq $embed.Title "How do I self-host ModMail?" }}
+			{{ range $selfhosting }}
+				{{ if not (in $currentfieldnames .name) }}
+					{{ $embed.Set "Fields" ($embed.Fields.Append .)}}
+				{{ end }}
+			{{ end }}
+		{{ end }}
 		{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
-		{{ sendMessage nil (complexMessage "file" (json $embed) ) }}
+		{{/*{{ sendMessage nil (complexMessage "file" (json $embed) ) }} */}}
 	{{ end}}
 {{ end }}
 
-{{ $newfieldnames := cslice }}
-{{ $newfieldnames = $newfieldnames.Append .name }}
+{{ $bin := ":wastebasket:" }}
+{{ if eq .Reaction.Emoji.APIName $bin }}
+	{{ deleteMessage nil .ReactionMessageChannel.ID .ReactionMessage.ID }}
+{{ end }}
