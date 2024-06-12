@@ -1,5 +1,5 @@
 {{ $modmaillogo := "modmail:702099194701152266" }}
-{{ $bin := ":wastebasket:" }}
+{{ $bin := "bin:1250547674562957313" }}
 {{ $msgID := .ReactionMessage.ID }}
 {{ $setupfields := (cslice (sdict 
 	"name" "Advanced Setup" 
@@ -97,7 +97,7 @@
 	{{ end}}
 {{ end }}
 
-{{ $bin := ":wastebasket:" }}
+
 {{ if eq .Reaction.Emoji.APIName $bin }}
-	{{ deleteMessage nil .ReactionMessageChannel.ID .ReactionMessage.ID }}
+	{{ deleteMessage nil .ReactionMessage.ID 0 }}
 {{ end }}
