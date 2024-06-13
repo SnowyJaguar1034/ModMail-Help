@@ -16,8 +16,11 @@ Just a few helper things used on the ModMail Support server e.g. triggers and me
   - [x] Purchase Premium
   - [x] Bot Not Responding
   - [x] Everyone able to see the tickets
+  - [ ] Logging Example
+  - [ ] Verfication Guide
 - [x] Create YaGPDB code for the responses
 - [x] Create a reaction-add trigger to delete the message
+  - [x] Maybe the make the deletion actually oveerwite the message with "Response Deleted"🤔
 - [x] Create a reaction-add trigger to add fields to the responses
   - [x] Prevent the same field from being added twice
 - [ ] Create a reaction-remove trigger to remove fields from the responses
@@ -26,3 +29,4 @@ Just a few helper things used on the ModMail Support server e.g. triggers and me
 - [ ] Check wording of YAGPDB code matches Carl bot tags
 - [ ] Create a list of commands
 - [ ] Add check so only the trigger author can add or remove fields
+- [ ] Check if any repsonses could benefit from a image
