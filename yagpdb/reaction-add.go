@@ -116,11 +116,13 @@
 			{{ end }}
 		{{ end }}
 		{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
-		{{ addMessageReactions nil $msgID (cslice $redflag) }}
+		{{ if eq $embed.Title "How do I self-host ModMail?" }}
+			{{ addMessageReactions nil $msgID (cslice $redflag) }}
+		{{ end }}
 	{{ end}}
 {{ end }}
 
-{{/* Checks if the reaction is the red flag emoji */ }}
+{{/* Checks if the reaction is the red flag emoji */}}
 {{ if eq .Reaction.Emoji.APIName $redflag }}
 	{{ range .ReactionMessage.Embeds }}
 		{{ $currentfieldnames := cslice }}
