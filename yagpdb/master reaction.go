@@ -1,8 +1,8 @@
 {{/* Declares the variables */}}
+{{ $msgID := .ReactionMessage.ID }}
 {{ $modmaillogo := "modmail:702099194701152266" }}
 {{ $bin := "bin:1250547674562957313" }}
 {{ $redflag := "red_flag:1250907194778583101" }}
-{{ $msgID := .ReactionMessage.ID }}
 
 {{/* Declaring the new fields */}}
 {{ $setupfields := (cslice (sdict 
@@ -89,7 +89,6 @@
 	"inline" true
 ) )}}
 
-{{/* {{ $titles : cslice (sdict "title" "How do I setup ModMail?" "fields" $setupfields) (sdict "title" "How do I open a ticket?" "fields" $ticketfields) (sdict "title" "How do I self-host ModMail?" "fields" $selfhosting) }} */}}
 
 {{ $titles := sdict "How do I setup ModMail?" $setupfields "How do I open a ticket?" $ticketfields "How do I self-host ModMail?" $selfhosting }}
 
@@ -112,11 +111,12 @@
 				{{ $embed.Set "Fields" ($embed.Fields.Append .) }}
 			{{ end }}
 		{{ end }}
-		{{ addMessageReactions nil $msgID (cslice $redflag) }}
 		{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
+		{{ addMessageReactions nil $msgID (cslice $redflag) }}
 	{{ end}}
 {{ end }}
 
+{{/* Checks if the reaction is the red flag emoji */ }}
 {{ if eq .Reaction.Emoji.APIName $redflag }}
 	{{ range .ReactionMessage.Embeds }}
 		{{ $currentfieldnames := cslice }}
@@ -135,36 +135,3 @@
 		{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
 	{{ end}}
 {{ end }}
-
-		{{ if eq $embed.Title "How do I setup ModMail?" }}
-			{{ range $setupfields }}
-				{{ if not (in $currentfieldnames .name) }}
-					{{ $embed.Set "Fields" ($embed.Fields.Append .)}}
-				{{ end }}
-			{{ end }}
-		{{ end }}
-		{{ if eq $embed.Title "How do I open a ticket?" }}
-			{{ range $ticketfields }}
-				{{ if not (in $currentfieldnames .name) }}
-					{{ $embed.Set "Fields" ($embed.Fields.Append .)}}
-				{{ end }}
-			{{ end }}
-		{{ end }}
-		{{ if eq $embed.Title "How do I self-host ModMail?" }}
-			{{ range $selfhosting }}
-				{{ if not (in $currentfieldnames .name) }}
-					{{ $embed.Set "Fields" ($embed.Fields.Append .)}}
-				{{ end }}
-			{{ end }}
-		{{ end }}
-		{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
-		{{/*{{ sendMessage nil (complexMessage "file" (json $embed) ) }} */}}
-	{{ end}}
-{{ end }}
-
-
-(sdict 
-	"name" "Cheap VPS Providers" 
-	"value" "- [Scaleway | EU](https://www.scaleway.com)\n- [Linode | US, EU, Asia](https://www.linode.com)\n- [Digital Ocean | US](https://www.digitalocean.com)\n- [Vultr | US, EU, NA, SA, Asia](https://www.vultr.com)\n- [OVH | EU, Canada](https://www.ovh.co.uk)\n- [Hetzner | Germany, US](https://www.hetzner.com)\n- [Time4VPS | Lithuania](https://www.time4vps.eu)"
-	"inline" false
-) 
