@@ -30,3 +30,8 @@ Just a few helper things used on the ModMail Support server e.g. triggers and me
 - [ ] Create a list of commands
 - [ ] Add check so only the trigger author can add or remove fields
 - [ ] Check if any repsonses could benefit from a image
+- [ ] Add a check to see if yag was the author of the response and break clause if yag is not the author
+
+```
+eq .Message.Author.ID .BotUser.ID
+```
