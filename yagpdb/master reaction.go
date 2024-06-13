@@ -90,7 +90,11 @@
 ) )}}
 
 
-{{ $titles := sdict "How do I setup ModMail?" $setupfields "How do I open a ticket?" $ticketfields "How do I self-host ModMail?" $selfhosting }}
+{{ $titles := sdict 
+	"How do I setup ModMail?" $setupfields 
+	"How do I open a ticket?" $ticketfields 
+	"How do I self-host ModMail?" $selfhosting 
+}}
 
 {{/* Checks if the reaction is the bin emoji */}}
 {{ if eq .Reaction.Emoji.APIName $bin }}
