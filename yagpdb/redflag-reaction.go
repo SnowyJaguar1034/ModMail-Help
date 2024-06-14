@@ -1,6 +1,5 @@
 {{/* Declares the variables */}}
 {{ $msgID := .ReactionMessage.ID }}
-{{ $modmaillogo := "modmail:702099194701152266" }}
 {{ $redflag := "red_flag:1250907194778583101" }}
 {{ $reactionadded := .Reaction.Emoji.APIName }}
 
