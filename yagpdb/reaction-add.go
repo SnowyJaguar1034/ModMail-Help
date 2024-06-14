@@ -98,6 +98,9 @@
 
 {{/* Checks if the reaction is the bin emoji */}}
 {{ if eq .Reaction.Emoji.APIName $bin }}
+	{{ if ne .Reaction.Message.Author.ID .BotUser.ID }} .Message.Author.ID .BotUser.ID
+    		{{ return }}
+	{{ end }}
 	{{ deleteMessage nil .ReactionMessage.ID 0 }}
 {{ end }}
 
