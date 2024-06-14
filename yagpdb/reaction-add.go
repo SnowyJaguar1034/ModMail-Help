@@ -86,12 +86,6 @@
 	"How do I self-host ModMail?" $selfhosting 
 }}
 
-{{/* Checks if the reaction is the bin emoji */}}
-{{ if and (eq $reactionadded $bin) (ne .ReactionMessage.Author.ID .BotUser.ID) }}
-	{{editMessage nil $msgID (complexMessageEdit "content" "**Message will be deleted in 5 seconds**") }}
-	{{ deleteMessage nil .ReactionMessage.ID 5 }}
-{{ end }}
-
 {{/* Checks if the reaction is the ModMail logo */}}
 {{ if eq $reactionadded $modmaillogo }}
 	{{ range .ReactionMessage.Embeds }}
