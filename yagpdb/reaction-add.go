@@ -103,6 +103,14 @@
 	{{ deleteMessage nil .ReactionMessage.ID 5 }}
 {{ end }}
 
+{{ if eq .Reaction.Emoji.APIName $bin }}
+	{{ if ne .ReactionMessage.Author.ID .BotUser.ID }}
+    		{{ return }}
+	{{ end }}
+	{{editMessage nil $msgID (complexMessageEdit "content" "Message will be deleted in 5 seconds") }}
+	{{ deleteMessage nil .ReactionMessage.ID 5 }}
+{{ end }}
+
 
 {{/* Checks if the reaction is the ModMail logo */}}
 {{ if eq .Reaction.Emoji.APIName $modmaillogo }}
