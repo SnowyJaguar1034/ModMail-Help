@@ -97,6 +97,12 @@
 }}
 
 {{/* Checks if the reaction is the bin emoji */}}
+{{ if and (eq .Reaction.Emoji.APIName $bin) (ne .ReactionMessage.Author.ID .BotUser.ID) }}
+	{{ return}}
+	{{editMessage nil $msgID (complexMessageEdit "content" "Message will be deleted in 5 seconds") }}
+	{{ deleteMessage nil .ReactionMessage.ID 5 }}
+{{ end }}
+
 {{ if eq .Reaction.Emoji.APIName $bin }}
 	{{ if ne .ReactionMessage.Author.ID .BotUser.ID }}
     		{{ return }}
