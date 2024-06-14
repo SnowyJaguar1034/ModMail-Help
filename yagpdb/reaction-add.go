@@ -103,12 +103,6 @@
 	{{ deleteMessage nil .ReactionMessage.ID 5 }}
 {{ end }}
 
-{{ if eq .Reaction.Emoji.APIName $bin }}
-	{{ if ne .ReactionMessage.Author.ID .BotUser.ID }}
-    		{{ return }}
-	{{ end }}
-	{{ deleteMessage nil .ReactionMessage.ID 0 }}
-{{ end }}
 
 {{/* Checks if the reaction is the ModMail logo */}}
 {{ if eq .Reaction.Emoji.APIName $modmaillogo }}
