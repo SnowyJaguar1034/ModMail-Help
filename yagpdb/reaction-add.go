@@ -112,23 +112,3 @@
 		{{ end }}
 	{{ end}}
 {{ end }}
-
-{{/* Checks if the reaction is the red flag emoji */}}
-{{ if eq $reactionadded $redflag }}
-	{{ range .ReactionMessage.Embeds }}
-		{{ $currentfieldnames := cslice }}
-		{{ range .Fields }}
-			{{ $currentfieldnames = $currentfieldnames.Append .Name }}
-		{{ end }}
-		{{ $embed := structToSdict . }}
-		{{ $embed.Set "Fields" (cslice.AppendSlice $embed.Fields) }}
-		{{ if eq $embed.Title "How do I self-host ModMail?" }}
-			{{ range $redflags }}
-				{{ if not (in $currentfieldnames .name) }}
-					{{ $embed.Set "Fields" ($embed.Fields.Append .)}}
-				{{ end }}
-			{{ end }}
-		{{ end }}
-		{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
-	{{ end}}
-{{ end }}
