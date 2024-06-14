@@ -96,9 +96,10 @@
 		{{ $embed := structToSdict . }}
 		{{ $embed.Set "Fields" (cslice.AppendSlice $embed.Fields) }}
 		{{ range $titles.Get $embed.Title }}
-			{{ if not (in $currentfieldnames .name) }}
-				{{ $embed.Set "Fields" ($embed.Fields.Append .) }}
+			{{ if (in $currentfieldnames .name) }}
+				{{ return }}
 			{{ end }}
+			{{ $embed.Set "Fields" ($embed.Fields.Append .) }}
 		{{ end }}
 		{{editMessage nil $msgID (complexMessageEdit "embed" $embed)}}
 		{{ if eq $embed.Title "How do I self-host ModMail?" }}
