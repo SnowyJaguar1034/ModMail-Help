@@ -2,8 +2,10 @@
 {{ $template := sdict "color" 2003199 }}
 {{ $replytarget := .Message.ID }}
 {{ $alreadyreplied := false }}
-{{ $modmaillogo := ":modmail:702099194701152266" }}
-{{ $bin := ":bin:1250547674562957313" }}
+{{ $bin := ":bin:1251255316121653343" }}
+{{ $bookmark := ":bookmark:1251243802207846566" }}
+{{ $mail := ":mail:1251255870701047909" }}
+
 {{/* {{sendMessage nil "Doing stuff upon trigger!" }} */}}
 {{/* https://docs.yagpdb.xyz/reference/templates#templates.sdict */}}
 {{/* https://discord.com/channels/166207328570441728/578976698931085333/1248038506312237127 */}}
@@ -29,7 +31,7 @@
 	{{ $embed.Set "title" "How do I get unbanned?" }}
 	{{ $embed.Set "description" "You are in the wrong server for what you’re seeking help for.\n\nWe are the Support server for the ModMail **bot**.\n\nWe have no affiliation with the server you are banned from.\n\nYou cannot use ModMail to contact a server you are banned from.\n\nWe cannot help you any further, sorry." }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -51,7 +53,7 @@
 			)
 		)}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $modmaillogo) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -76,7 +78,7 @@
 			"inline" false
 		))}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $modmaillogo) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := false }}
 {{ end }}
 
@@ -89,7 +91,7 @@
 	{{ $embed.Set "title" "Donation Link" }}
 	{{ $embed.Set "description" "[Purchase ModMail Premium Here](https://modmail.xyz/premium)" }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -101,7 +103,7 @@
 	{{ $embed.Set "title" "ModMail is not responding" }}
 	{{ $embed.Set "description" "If ModMail is not responding in your server, please check the following:\n- The bot has Read Messages, Send Messages, and Embed Links permissions.\n- You are using the correct prefix. Use `@ModMail prefix` to check the prefix.\n- The command you are using is valid. Check using `=help <command>`.\n- The bot is online. Discord might be having issues, or the bot might be restarting.\n\nIf the bot still does respond, please let us know your [server ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)." }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -125,7 +127,7 @@
 		"inline" true
 	))}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -150,7 +152,7 @@
 		"inline" true
 	))}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $modmaillogo) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -163,7 +165,7 @@
 	{{ $embed.Set "description" "If you receive \"your message could not be delivered\", check your privacy settings for the server you want to contact server. You need to enable the \"allow direct messages from server members\" option." }}
 	{{ $embed.Set "image" (sdict "url" "https://media.discordapp.net/attachments/576764854673735680/837129125327011860/unknown.png") }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 	{{ end }}
 
@@ -175,7 +177,7 @@
 	{{ $embed.Set "title" "Everyone can see my tickets!" }}
 	{{ $embed.Set "description" "If everyone in your server is able to view tickets, there is a chance that another bot in your server is interfering. This is not a problem with ModMail. We recommend checking the audit logs in your server settings to see which bot is changing the channel permissions." }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -187,5 +189,5 @@
 	{{ $embed.Set "title" "Don't just say `i need help`, tell us what you need help with!" }}
 	{{ $embed.Set "description" "[This saves all of us time and we can jump in to provide you with a solution!](https://dontasktoask.com/)" }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $modmaillogo) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 {{ end }}
