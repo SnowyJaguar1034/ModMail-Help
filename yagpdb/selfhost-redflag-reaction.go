@@ -1,6 +1,6 @@
 {{/* Declares the variables */}}
 {{ $msgID := .ReactionMessage.ID }}
-{{ $redflag := "red_flag:1250907194778583101" }}
+{{ $redflag := "flag:1251303058542039202" }}
 {{ $reactionadded := .Reaction.Emoji.APIName }}
 
 {{/* Check if the reaction added is the red flag emoji */}}
