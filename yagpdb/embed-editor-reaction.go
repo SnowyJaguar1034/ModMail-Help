@@ -1,7 +1,7 @@
 {{/* Declares the variables */}}
 {{ $msgID := .ReactionMessage.ID }}
-{{ $modmaillogo := "modmail:702099194701152266" }}
-{{ $redflag := "red_flag:1250907194778583101" }}
+{{ $mail := "mail:1251255870701047909" }}
+{{ $redflag := "flag:1251303058542039202" }}
 {{ $reactionadded := .Reaction.Emoji.APIName }}
 
 {{/* Declaring the new fields */}}
@@ -87,7 +87,7 @@
 }}
 
 {{/* Checks if the reaction is the ModMail logo */}}
-{{ if eq $reactionadded $modmaillogo }}
+{{ if eq $reactionadded $mail }}
 	{{ range .ReactionMessage.Embeds }}
 		{{ $currentfieldnames := cslice }}
 		{{ range .Fields }}
