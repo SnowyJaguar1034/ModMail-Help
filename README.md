@@ -28,10 +28,7 @@ Just a few helper things used on the ModMail Support server e.g. triggers and me
 - [ ] Check Carl bot tags for any YAGPDB is missing
 - [ ] Check wording of YAGPDB code matches Carl bot tags
 - [ ] Create a list of commands
-- [ ] Add check so only the trigger author can add or remove fields
+- [ ] ~~Add check so only the trigger author can add or remove fields~~
 - [ ] Check if any repsonses could benefit from a image
 - [ ] Add a check to see if yag was the author of the response and break clause if yag is not the author
-
-```
-eq .Message.Author.ID .BotUser.ID
-```
+- [x] Add a bookmark functionality to send the user a copy of the response.
