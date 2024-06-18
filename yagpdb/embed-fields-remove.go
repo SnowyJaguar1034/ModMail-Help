@@ -93,7 +93,7 @@
 		{{ range .Fields }}
 			{{ $currentfieldnames = $currentfieldnames.Append .Name }}
 		{{ end }}
-		{{ $embed := structToSdict }}
+		{{ $embed := structToSdict . }}
 		{{ range $titles.Get $embed.Title }}
 			{{ if not (in $currentfieldnames .name) }}
 				{{ return }}
