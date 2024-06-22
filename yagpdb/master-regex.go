@@ -29,7 +29,17 @@
 		{{ $embed.Set $k $v}}
 	{{ end }}
 	{{ $embed.Set "title" "How do I get unbanned?" }}
-	{{ $embed.Set "description" "You are in the wrong server for what you’re seeking help for.\n\nWe are the Support server for the ModMail **bot**.\n\nWe have no affiliation with the server you are banned from.\n\nYou cannot use ModMail to contact a server you are banned from.\n\nWe cannot help you any further, sorry." }}
+	{{ $embed.Set "description" "You are in the wrong server for what you’re seeking help for." }}
+	{{ $embed.Set "fields" (cslice (sdict 
+		"name" "We are the Support server for the ModMail __bot__."
+		"value" "We have no affiliation with the server you are banned from."
+		"inline" true
+		) (sdict 
+		"name" "You cannot use ModMail to contact a server you are banned from."
+		"value" "We cannot help you any further, sorry."
+		"inline" true
+		)
+	)}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
@@ -91,6 +101,26 @@
 	{{ $embed.Set "title" "Donation Link" }}
 	{{ $embed.Set "description" "[Purchase ModMail Premium Here](https://modmail.xyz/premium)" }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
+	{{ $alreadyreplied := true }}
+{{ end }}
+
+{{ if and $logging ( not (hasPrefix .Message.Content "=")) }}
+	{{ $embed := sdict }}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+	{{ end }}
+	{{ $embed.Set "title" "Advanced Logging Example" }}
+	{{ $embed.Set "description" "This is an example of what you'll get with advanced logging. https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" }}
+	{{ $file := "
+[2024-02-26 23:44:18] scyye#0 (User): Hello! I'm a user in need of assistance, can someone help me?
+[2024-02-26 23:44:43] scyye#0 (Comment): I am a staff member writing a comment on the ticket, for other staff to see
+[2024-02-26 23:45:16] scyye#0 (Staff): I am now replying to the user, asking them what they need help with.
+[2024-02-26 23:45:46] jrwallor#0 (Staff): Another staff member with an anonymous reply.
+[2024-02-26 23:45:58] scyye#0 (User): This is the user replying, thanking me for support (I didn't think this through, cut me some slack)
+[2024-02-26 23:46:36] scyye#0 (Comment): =c This ticket is resolved, so I'm closing it now.
+	" }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "file" $file) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
