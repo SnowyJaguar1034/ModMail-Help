@@ -16,8 +16,9 @@ Just a few helper things used on the ModMail Support server e.g. triggers and me
   - [x] Purchase Premium
   - [x] Bot Not Responding
   - [x] Everyone able to see the tickets
-  - [ ] Logging Example
+  - [x] Logging Example
   - [ ] Verfication Guide
+  - [x] Wong Server
 - [x] Create YaGPDB code for the responses
 - [x] Create a reaction-add trigger to delete the message
   - [x] Maybe the make the deletion actually oveerwite the message with "Response Deleted"🤔
