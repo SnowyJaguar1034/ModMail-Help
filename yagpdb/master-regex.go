@@ -198,8 +198,8 @@
 		{{ $embed.Set $k $v}}
 	{{ end }}
 	{{ $embed.Set "title" "My message wasn't delivered!" }}
-	{{ $embed.Set "description" "If you receive \"your message could not be delivered\", check your privacy settings for the server you want to contact server. You need to enable the \"allow direct messages from server members\" option." }}
-	{{ $embed.Set "image" (sdict "url" "https://media.discordapp.net/attachments/576764854673735680/837129125327011860/unknown.png") }}
+	{{ $embed.Set "description" "If you receive \"your message could not be delivered\", check your privacy settings for the server you want to contact. You need to enable the \"allow direct messages from server members\" option." }}
+	{{ $embed.Set "image" (sdict "url" "https://i.imgur.com/x5Hcio5.png") }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
