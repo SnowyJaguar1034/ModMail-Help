@@ -24,19 +24,21 @@
 {{ $help := reFindAllSubmatches `(?i)(?:need (?:support|help|assistance|aid|advice)|(?:help|support) me)` .Message.Content }}
 
 
-{{ if $banned }}
+{{ if or ($banned) ($wrongserver) }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
 	{{ end }}
 	{{ $embed.Set "title" "How do I get unbanned?" }}
-	{{ $embed.Set "description" "You are in the wrong server for what you’re seeking help for." }}
+	{{ if $banned }}
+		{{ $embed.Set "description" "You cannot use ModMail to contact a server you are banned from." }}
+	{{ end }}
 	{{ $embed.Set "fields" (cslice (sdict 
-		"name" "We are the Support server for the ModMail __bot__."
-		"value" "We have no affiliation with the server you are banned from."
+		"name" "You are in the wrong server for what you’re seeking help for."
+		"value" "We are the Support server for the ModMail __**bot**__."
 		"inline" true
 		) (sdict 
-		"name" "You cannot use ModMail to contact a server you are banned from."
+		"name" "We have no affiliation with the server you are banned from."
 		"value" "We cannot help you any further, sorry."
 		"inline" true
 		)
