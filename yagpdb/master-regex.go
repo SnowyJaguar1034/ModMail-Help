@@ -29,16 +29,19 @@
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
 	{{ end }}
-	{{ $embed.Set "title" "How do I get unbanned?" }}
 	{{ if $banned }}
+		{{ $embed.Set "title" "How do I get unbanned?" }}
 		{{ $embed.Set "description" "You cannot use ModMail to contact a server you are banned from." }}
+	{{ else if $wrongserver }}
+		{{ $embed.Set "title" "How do I contact *XYZ* Server" }}
+		{{ $embed.Set "description" "Please DM the __**bot**__ <@575252669443211264> with your message instead. Make sure __**not**__ to select __ModMail Support__ as that will send it to this server" }}
 	{{ end }}
 	{{ $embed.Set "fields" (cslice (sdict 
 		"name" "You are in the wrong server for what you’re seeking help for."
 		"value" "We are the Support server for the ModMail __**bot**__."
 		"inline" true
 		) (sdict 
-		"name" "We have no affiliation with the server you are banned from."
+		"name" "We have no affiliation with the server/community/game you are seeking help for."
 		"value" "We cannot help you any further, sorry."
 		"inline" true
 		)
