@@ -12,6 +12,7 @@
 
 {{/* Regexes to match, pulled from the existing commands */}}
 {{ $banned := reFindAllSubmatches `(?i)ban|racefactory|bloxburg|appeal` .Message.Content }}
+{{ $wrongserver := reFindAllSubmatches `(?i)wrong server|not the right server|not the server` .Message.Content }}
 {{ $setup := reFindAllSubmatches `(?i:modmail (?i:invite|joined|setup|added)|invite modmail|setup modmail|added modmail|setup bot|bot setup|bot added|setup)` .Message.Content }}
 {{ $ticket := reFindAllSubmatches `(?:m(?:essage (?:a )?server|sg (?:a )?server)|c(?:reate (?:a )?ticket|ustom commands)|open (?:a )?ticket)` .Message.Content }}
 {{ $premium := reFindAllSubmatches `(?:message logs|(?:transcrip|snippe)ts|p(?:atreon|remium)|donate)` .Message.Content }}
@@ -118,14 +119,7 @@
 	{{ end }}
 	{{ $embed.Set "title" "Advanced Logging Example" }}
 	{{ $embed.Set "description" "This is an example of what you'll get with advanced logging. https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" }}
-	{{ $file := "
-[2024-02-26 23:44:18] scyye#0 (User): Hello! I'm a user in need of assistance, can someone help me?
-[2024-02-26 23:44:43] scyye#0 (Comment): I am a staff member writing a comment on the ticket, for other staff to see
-[2024-02-26 23:45:16] scyye#0 (Staff): I am now replying to the user, asking them what they need help with.
-[2024-02-26 23:45:46] jrwallor#0 (Staff): Another staff member with an anonymous reply.
-[2024-02-26 23:45:58] scyye#0 (User): This is the user replying, thanking me for support (I didn't think this through, cut me some slack)
-[2024-02-26 23:46:36] scyye#0 (Comment): =c This ticket is resolved, so I'm closing it now.
-	" }}
+	{{ $file := "[2024-02-26 23:44:18] scyye#0 (User): Hello! I'm a user in need of assistance, can someone help me?\n[2024-02-26 23:44:43] scyye#0 (Comment): I am a staff member writing a comment on the ticket, for other staff to see\n[2024-02-26 23:45:16] scyye#0 (Staff): I am now replying to the user, asking them what they need help with.\n[2024-02-26 23:45:46] jrwallor#0 (Staff): Another staff member with an anonymous reply.\n[2024-02-26 23:45:58] scyye#0 (User): This is the user replying, thanking me for support (I didn't think this through, cut me some slack)\n[2024-02-26 23:46:36] scyye#0 (Comment): =c This ticket is resolved, so I'm closing it now." }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "file" $file) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
@@ -227,3 +221,4 @@
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 {{ end }}
+
