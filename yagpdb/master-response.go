@@ -1,43 +1,32 @@
-{{/* Defining varibles for use throughout the script */}}
-{{ $template := sdict "color" 2003199 }}
-{{ $replytarget := .Message.ID }}
-{{ $alreadyreplied := false }}
-{{ $bin := ":bin:1251255316121653343" }}
-{{ $bookmark := ":bookmark:1251243802207846566" }}
-{{ $mail := ":mail:1251255870701047909" }}
-
-{{/* {{sendMessage nil "Doing stuff upon trigger!" }} */}}
-{{/* https://docs.yagpdb.xyz/reference/templates#templates.sdict */}}
-{{/* https://discord.com/channels/166207328570441728/578976698931085333/1248038506312237127 */}}
-{{/* https://discord.com/channels/166207328570441728/578976698931085333/1254524326632362036 */}}
-
 {{/* Criteria to match */}}
 {{/* 01 : Banned response*/}}
 {{/* 02 : Wrong Server response */}}
 {{/* 03 : Setup response */}}
 {{/* 04 : Open Ticket response */}}
 {{/* 05 : Premium response */}}
-{{/* 06 : Logging response */}}
-{{/* 07 : Not Responding response */}}
-{{/* 08 : Custom Instance response */}}
-{{/* 09 : Sef Host response */}}
-{{/* 10 : Clyde response */}}
-{{/* 11 : Global Ticket response */}}
-{{/* 11 : General Help response */}}
+{{/* 06 : Not Responding response */}}
+{{/* 07 : Custom Instance response */}}
+{{/* 08 : Sef Host response */}}
+{{/* 9 : Clyde response */}}
+{{/* 10 : Global Ticket response */}}
+{{/* 11 : Logging response */}}
+{{/* 12 : General Help response */}}
 
-{{ $trigger := .ExecData.trigger }}
-{{ $banned := eq $trigger 1 }}
-{{ $wrongserver := eq $trigger 2 }}
-{{ $setup := eq $trigger 3 }}
-{{ $ticket := eq $trigger 4 }}
-{{ $premium := eq $trigger 5 }}
-{{ $logging := eq $trigger 6 }}
-{{ $noresponse := eq $trigger 7 }}
-{{ $custom := eq $trigger 8 }}
-{{ $selfhost := eq $trigger 9 }}
-{{ $clyde := eq $trigger 10 }}
-{{ $globalticket := eq $trigger 11 }}
-{{ $help := eq $trigger 12 }}
+{{/* Defining varibles for use throughout the script */}}
+{{ $template := sdict "color" 2003199 }}
+{{ $replytarget := .ExecData.triggerMsgID }}
+{{ $alreadyreplied := false }}
+{{ $bin := ":bin:1251255316121653343" }}
+{{ $bookmark := ":bookmark:1251243802207846566" }}
+{{ $mail := ":mail:1251255870701047909" }}
+
+{{/* https://docs.yagpdb.xyz/reference/templates#templates.sdict */}}
+{{/* https://discord.com/channels/166207328570441728/578976698931085333/1248038506312237127 */}}
+{{/* https://discord.com/channels/166207328570441728/578976698931085333/1254524326632362036 */}}
+
+{{ if eq .ExecData.trigger 0 }}
+    {{ return }}
+{{ end }}
 
 {{/* Check if trigger was "banned" or "wrong server" response */}}
 {{ if eq .ExecData.trigger 1 2 }}
@@ -114,11 +103,11 @@
 		))}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
-	{{ $alreadyreplied := false }}
+	{{ $alreadyreplied := true }}
 {{ end }}
 
 {{/* Check if trigger was "premium" response */}}
-{{ if and $premium ( not (hasPrefix .Message.Content "=")) }}
+{{ if eq .ExecData.trigger 5 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -131,7 +120,7 @@
 {{ end }}
 
 {{/* Check if trigger was "logging" response */}}
-{{ if and $logging ( not (hasPrefix .Message.Content "=")) }}
+{{ if eq .ExecData.trigger 11 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -145,7 +134,7 @@
 {{ end }}
 
 {{/* Check if trigger was "not responding" response */}}
-{{ if eq .ExecData.trigger 7 }}
+{{ if eq .ExecData.trigger 6 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -158,7 +147,7 @@
 {{ end }}
 
 {{/* Check if trigger was "custom instance" response */}}
-{{ if eq .ExecData.trigger 8 }}
+{{ if eq .ExecData.trigger 7 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -183,7 +172,7 @@
 {{ end }}
 
 {{/* Check if trigger was "self host" response */}}
-{{ if eq .ExecData.trigger 9 }}
+{{ if eq .ExecData.trigger 8 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -209,7 +198,7 @@
 {{ end }}
 
 {{/* Check if trigger was "clyde" response */}}
-{{ if eq .ExecData.trigger 10 }}
+{{ if eq .ExecData.trigger 9 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -223,7 +212,7 @@
 	{{ end }}
 
 {{/* Check if trigger was "globalticket" response */}}
-{{ if eq .ExecData.trigger 11 }}
+{{ if eq .ExecData.trigger 10 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -236,7 +225,7 @@
 {{ end }}
 
 {{/* Check if trigger was "help" response */}}
-{{ if and $help ( not $alreadyreplied) }}
+{{ if and ( eq .ExecData.trigger 12 ) ( not $alreadyreplied) }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
