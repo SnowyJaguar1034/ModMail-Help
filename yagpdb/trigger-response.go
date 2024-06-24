@@ -23,6 +23,37 @@
 	{{ return }}
 {{ end }}
 
+{{ $command_response_map := sdict
+	1 "banned"
+	2 "wrong server"
+	3 "setup"
+	4 "open ticket"
+	5 "premium"
+	6 "not responding"
+	7 "custom instance"
+	8 "self host"
+	9 "clyde"
+	10 "global ticket"
+	11 "logging"
+	12 "a2a"
+}}
+
+{{ range $key, $value := $command_response_map }}
+	{{ if eq $value $command }}
+		{{ $trigger = $key }}
+	{{ else }}
+	{{ $embed := sdict }}
+	{{ $embed.Set "title" "How do I setup ModMail?" }}
+	{{ $embed.Set "description" "I'm sorry, I don't understand that command. Please use one of the following commands:" }}
+	{{ $embed.Set "color" 2003199 }}
+	{{ $embed.Set "fields" (cslice) }}
+	{{ range $key, $value := $command_response_map }}
+		{{ $embed.Set "description" (print $embed.description "\n" $value) }}
+	{{ end }}
+	{{ sendMessageNoEscapeRetID nil (complexMessage "reply" .Message.ID "embed" $embed) }}
+	{{ end }}
+{{ end }}
+
 
 {{ if eq $command "banned" }}
 	{{ $trigger = 1}}
@@ -48,6 +79,14 @@
 	{{ $trigger = 11 }}
 {{ else if eq $command "a2a" }}
 	{{ $trigger = 12 }}
+{{ else }}
+	$trigger = 0
+	{{ $template := sdict "color" 2003199 }}
+	{{ $embed := sdict }}
+	{{ $embed.Set "title" "How do I setup ModMail?" }}
+	{{ $embed.Set "description" "I'm sorry, I don't understand that command. Please use one of the following commands:" }}
+	{{ $embed.Set "fields" (cslice
+	{{ sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
 {{ end }}
 
 {{/* ExecCC to call the main response trigger */}}
