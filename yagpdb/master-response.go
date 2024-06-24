@@ -12,6 +12,19 @@
 {{/* https://discord.com/channels/166207328570441728/578976698931085333/1254524326632362036 */}}
 
 {{/* Criteria to match */}}
+{{/* 01 : Banned response*/}}
+{{/* 02 : Wrong Server response */}}
+{{/* 03 : Setup response */}}
+{{/* 04 : Open Ticket response */}}
+{{/* 05 : Premium response */}}
+{{/* 06 : Logging response */}}
+{{/* 07 : Not Responding response */}}
+{{/* 08 : Custom Instance response */}}
+{{/* 09 : Sef Host response */}}
+{{/* 10 : Clyde response */}}
+{{/* 11 : Global Ticket response */}}
+{{/* 11 : General Help response */}}
+
 {{ $trigger := .ExecData.trigger }}
 {{ $banned := eq $trigger 1 }}
 {{ $wrongserver := eq $trigger 2 }}
@@ -26,16 +39,18 @@
 {{ $globalticket := eq $trigger 11 }}
 {{ $help := eq $trigger 12 }}
 
-
-{{ if or ($banned) ($wrongserver) }}
+{{/* Check if trigger was "banned" or "wrong server" response */}}
+{{ if eq .ExecData.trigger 1 2 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
 	{{ end }}
-	{{ if $banned }}
+	{/* Add "banned" specific title and description */}}
+	{{ if eq .ExecData.trigger 1 }}
 		{{ $embed.Set "title" "How do I get unbanned?" }}
 		{{ $embed.Set "description" "You cannot use ModMail to contact a server you are banned from." }}
-	{{ else if $wrongserver }}
+	{/* Add "wrong server" specific title and description */}}
+	{{ else if eq .ExecData.trigger 2 }}
 		{{ $embed.Set "title" "How do I contact *XYZ* Server" }}
 		{{ $embed.Set "description" "Please DM the __**bot**__ <@575252669443211264> with your message instead. Make sure __**not**__ to select __ModMail Support__ as that will send it to this server" }}
 	{{ end }}
@@ -54,7 +69,8 @@
 	{{ $alreadyreplied := true }}
 {{ end }}
 
-{{ if $setup }}
+{{/* Check if trigger was "setup" response */}}
+{{ if eq .ExecData.trigger 3 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -76,8 +92,8 @@
 	{{ $alreadyreplied := true }}
 {{ end }}
 
-
-{{ if $ticket }}
+{{/* Check if trigger was "open ticket" response */}}
+{{ if eq .ExecData.trigger 4 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -101,7 +117,7 @@
 	{{ $alreadyreplied := false }}
 {{ end }}
 
-
+{{/* Check if trigger was "premium" response */}}
 {{ if and $premium ( not (hasPrefix .Message.Content "=")) }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
@@ -114,6 +130,7 @@
 	{{ $alreadyreplied := true }}
 {{ end }}
 
+{{/* Check if trigger was "logging" response */}}
 {{ if and $logging ( not (hasPrefix .Message.Content "=")) }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
@@ -127,7 +144,8 @@
 	{{ $alreadyreplied := true }}
 {{ end }}
 
-{{ if and $noresponse }}
+{{/* Check if trigger was "not responding" response */}}
+{{ if eq .ExecData.trigger 7 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -139,7 +157,8 @@
 	{{ $alreadyreplied := true }}
 {{ end }}
 
-{{ if $custom }}
+{{/* Check if trigger was "custom instance" response */}}
+{{ if eq .ExecData.trigger 8 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -163,7 +182,8 @@
 	{{ $alreadyreplied := true }}
 {{ end }}
 
-{{ if $selfhost }}
+{{/* Check if trigger was "self host" response */}}
+{{ if eq .ExecData.trigger 9 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -188,7 +208,8 @@
 	{{ $alreadyreplied := true }}
 {{ end }}
 
-{{ if $clyde }}
+{{/* Check if trigger was "clyde" response */}}
+{{ if eq .ExecData.trigger 10 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -201,7 +222,8 @@
 	{{ $alreadyreplied := true }}
 	{{ end }}
 
-{{ if $globalticket }}
+{{/* Check if trigger was "globalticket" response */}}
+{{ if eq .ExecData.trigger 11 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -213,6 +235,7 @@
 	{{ $alreadyreplied := true }}
 {{ end }}
 
+{{/* Check if trigger was "help" response */}}
 {{ if and $help ( not $alreadyreplied) }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
