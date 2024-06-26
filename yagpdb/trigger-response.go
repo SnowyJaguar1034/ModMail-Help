@@ -71,3 +71,29 @@
 	"note" "Just some extra info to passthrough if needed."
 )}}
 
+{{ $cmd_map2 := sdict
+	"banned" (cslice "ban" "racefactory" "bloxburg" "appeal")
+	"wrongserver" (cslice "ws")
+	"setup" (cslice "gs" "getstarted" "config" "configure" "firststep" "fs" )
+	"ticket" (cslice "thread" "message" "contact" "open" "create" "new" "start" "send" "mail" "support" )
+	"premium" (cslice "patreon" "patron" "donate")
+	"notresponding" (cslice "nr" "notworking" "noresponse" "nores" )
+	"custom" (cslice "change" "customize" "instance" "name" "profile" "banner" "icon" "avatar" "pfp" "status" "private" "noverify" "bypass" )
+	"selfhost" (cslice "source" "vps" "sh" "github" )
+	"clyde" (cslice "blocked" "dm" "directmessage" "blockedme" "botblocked" )
+	"globalticket" (cslice "global" "gt" "everyone" "all" "sees" "see" )
+	"logging" (cslice "logging+" "logs" "transcript" "file" "viewer" "loggingplus" "lp" "l+" "log" )
+	"ask2ask" (cslice "a2a" "ask" "support" )
+}}
+
+{{ index $cmd_map }}
+
+{{ range $key, $value := $cmd_map2 }}
+	...
+	{{- else if eq $key $command }}
+		{{ $trigger = index $cmd_map $key }}
+	{{- else if in $value $command}}
+	{{- $trigger = index $cmd_map $key }}
+	...
+	{{ end}}
+{{ end }}
