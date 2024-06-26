@@ -15,79 +15,54 @@
 
 {{/* Declaring variables */}}
 {{ $trigger := 0 }}
-{{ $command := .strippedMsg.Content | lower}}
-{{ $prefix := reFindAllSubmatches `^[.,!?]` .Message.Content }}
+{{ $regex : = `^[.,!?]` }}
+{{ $prefix := reFindAllSubmatches $regex .Message.Content }}
+{{ $command := index (split (reReplace $regex .Message.Content "") " ") 0 }}
+{{ $embed := sdict }}
+{{ $embed.Set "color" 2003199 }}
+{{- $cmdfields := ( cslice ) }}
+{{ $cmd_map := sdict
+	"1" (sdict "command" "banned" "aliases" (cslice "ban" "racefactory" "bloxburg" "appeal"))
+	"2" (sdict "command" "wrongserver" "aliases" (cslice "ws"))
+	"3" (sdict "command" "setup" "aliases" (cslice "gs" "getstarted" "config" "configure" "firststep" "fs" ))
+	"4" (sdict "command" "ticket" "aliases" (cslice "thread" "message" "contact" "open" "create" "new" "start" "send" "mail" "support" ))
+	"5" (sdict "command" "premium" "aliases" (cslice "patreon" "patron" "donate"))
+	"6" (sdict "command" "notresponding" "aliases" (cslice "nr" "notworking" "noresponse" "nores" ))
+	"7" (sdict "command" "custom" "aliases" (cslice "change" "customize" "instance" "name" "profile" "banner" "icon" "avatar" "pfp" "status" "private" "noverify" "bypass" ))
+	"8" (sdict "command" "selfhost" "aliases" (cslice "source" "vps" "sh" "github" ))
+	"9" (sdict "command" "clyde" "aliases" (cslice "blocked" "dm" "directmessage" "blockedme" "botblocked" ))
+	"10" (sdict "command" "globalticket" "aliases" (cslice "global" "gt" "everyone" "all" "sees" "see" ))
+	"11" (sdict "command" "logging" "aliases" (cslice "logging+" "logs" "transcript" "file" "viewer" "loggingplus" "lp" "l+" "log" ))
+	"12" (sdict "command" "ask2ask" "aliases" (cslice "a2a" "ask" "support" ))
+}}
 
 {{/* Checks if the reaction is the bin emoji */}}
-{{ if and (not $prefix) (not .ServerPrefix) }}
+{{ if not (or $prefix .ServerPrefix) }}
 	{{ return }}
 {{ end }}
 
-{{ $command_response_map := sdict
-	1 "banned"
-	2 "wrong server"
-	3 "setup"
-	4 "open ticket"
-	5 "premium"
-	6 "not responding"
-	7 "custom instance"
-	8 "self host"
-	9 "clyde"
-	10 "global ticket"
-	11 "logging"
-	12 "a2a"
-}}
-
-{{ range $key, $value := $command_response_map }}
-	{{ if eq $value $command }}
-		{{ $trigger = $key }}
-	{{ else }}
-	{{ $embed := sdict }}
-	{{ $embed.Set "title" "How do I setup ModMail?" }}
-	{{ $embed.Set "description" "I'm sorry, I don't understand that command. Please use one of the following commands:" }}
-	{{ $embed.Set "color" 2003199 }}
-	{{ $embed.Set "fields" (cslice) }}
-	{{ range $key, $value := $command_response_map }}
-		{{ $embed.Set "description" (print $embed.description "\n" $value) }}
-	{{ end }}
-	{{ sendMessageNoEscapeRetID nil (complexMessage "reply" .Message.ID "embed" $embed) }}
-	{{ end }}
+{{ range $key, $value := $cmd_map }}
+    {{ $cmdfields = $cmdfields.Append (sdict 
+		"name" (joinStr " - " (joinStr ": " "ID" $key) (joinStr ": " "Command: " $value.command))  
+		"value" (joinStr "\n" "Aliases: " (joinStr ", " $value.aliases)
+		"inline" false)) 
+	}}
+    {{- if eq "taglist" $command }}
+        {{ $embed.Set "title" "Tag List" }}
+        {{ $embed.Set "description" "Here is a list of all the tags available:" }}
+        {{ $embed.Set "fields" $cmdfields }}
+    {{- else if eq $value.command $command }}
+        {{ $trigger = toInt $key}}
+    {{- else if in $value.aliases $command}}
+		{{- $trigger = toInt $key}}
+    {{- else }}
+        {{- $embed.Set "title" "Invalid Command!" }}
+        {{- $embed.Set "description" (joinStr "" "I'm sorry, I don't understand that command. Please use one of the commands in `" $prefix "taglist`")}}
+    {{- end -}}
 {{ end }}
 
-
-{{ if eq $command "banned" }}
-	{{ $trigger = 1}}
-{{ else if eq $command "wrong server" }}
-	{{ $trigger = 2 }}
-{{ else if eq $command "setup" }}
-	{{ $trigger = 3 }}
-{{ else if eq $command "open ticket" }}
-	{{ $trigger = 4 }}
-{{ else if eq $command "premium" }}
-	{{ $trigger = 5 }}
-{{ else if eq $command "not responding" }}
-	{{ $trigger = 6 }}
-{{ else if eq $command "custom instance" }}
-	{{ $trigger = 7 }}
-{{ else if eq $command "self host" }}
-	{{ $trigger = 8 }}
-{{ else if eq $command "clyde" }}
-	{{ $trigger = 9 }}
-{{ else if eq $command "global ticket" }}
-	{{ $trigger = 10 }}
-{{ else if eq $command "logging" }}
-	{{ $trigger = 11 }}
-{{ else if eq $command "a2a" }}
-	{{ $trigger = 12 }}
-{{ else }}
-	$trigger = 0
-	{{ $template := sdict "color" 2003199 }}
-	{{ $embed := sdict }}
-	{{ $embed.Set "title" "How do I setup ModMail?" }}
-	{{ $embed.Set "description" "I'm sorry, I don't understand that command. Please use one of the following commands:" }}
-	{{ $embed.Set "fields" (cslice
-	{{ sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-{{ end }}
+{{ sendMessage nil (complexMessage "reply" .Message.ID "embed" $embed) }}
+{{ sendMessage nil (complexMessage "content" (joinStr "" "You triggered response " $trigger)) }}
 
 {{/* ExecCC to call the main response trigger */}}
 {{execCC 75 .Channel.ID 0 (sdict 
@@ -95,3 +70,4 @@
 	"message" .ReactionMessage.ID
 	"note" "Just some extra info to passthrough if needed."
 )}}
+
