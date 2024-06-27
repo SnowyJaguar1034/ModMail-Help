@@ -71,19 +71,19 @@
 	"note" "Just some extra info to passthrough if needed."
 )}}
 
-{{ $cmd_map2 := sdict
-	"banned" (cslice "ban" "racefactory" "bloxburg" "appeal")
-	"wrongserver" (cslice "ws")
-	"setup" (cslice "gs" "getstarted" "config" "configure" "firststep" "fs" )
-	"ticket" (cslice "thread" "message" "contact" "open" "create" "new" "start" "send" "mail" "support" )
-	"premium" (cslice "patreon" "patron" "donate")
-	"notresponding" (cslice "nr" "notworking" "noresponse" "nores" )
-	"custom" (cslice "change" "customize" "instance" "name" "profile" "banner" "icon" "avatar" "pfp" "status" "private" "noverify" "bypass" )
-	"selfhost" (cslice "source" "vps" "sh" "github" )
-	"clyde" (cslice "blocked" "dm" "directmessage" "blockedme" "botblocked" )
-	"globalticket" (cslice "global" "gt" "everyone" "all" "sees" "see" )
-	"logging" (cslice "logging+" "logs" "transcript" "file" "viewer" "loggingplus" "lp" "l+" "log" )
-	"ask2ask" (cslice "a2a" "ask" "support" )
+{{ $cmd_map := cslice
+	(sdict "trigger" 1 "command" "banned" "aliases" (cslice "ban" "racefactory" "bloxburg" "appeal"))
+	(sdict "trigger" 2 "command" "wrongserver" "aliases" (cslice "ws"))
+	(sdict "trigger" 3 "command" "setup" "aliases" (cslice "gs" "getstarted" "config" "configure" "firststep" "fs" ))
+	(sdict "trigger" 4 "command" "ticket" "aliases" (cslice "thread" "message" "contact" "open" "create" "new" "start" "send" "mail" "support" ))
+	(sdict "trigger" 5 "command" "premium" "aliases" (cslice "patreon" "patron" "donate"))
+	(sdict "trigger" 6 "command" "notresponding" "aliases" (cslice "nr" "notworking" "noresponse" "nores" ))
+	(sdict "trigger" 7 "command" "custom" "aliases" (cslice "change" "customize" "instance" "name" "profile" "banner" "icon" "avatar" "pfp" "status" "private" "noverify" "bypass" ))
+	(sdict "trigger" 8 "command" "selfhost" "aliases" (cslice "source" "vps" "sh" "github" ))
+	(sdict "trigger" 9 "command" "clyde" "aliases" (cslice "blocked" "dm" "directmessage" "blockedme" "botblocked" ))
+	(sdict "trigger" 10 "command" "globalticket" "aliases" (cslice "global" "gt" "everyone" "all" "sees" "see" ))
+	(sdict "trigger" 11 "command" "logging" "aliases" (cslice "logging+" "logs" "transcript" "file" "viewer" "loggingplus" "lp" "l+" "log" ))
+	(sdict "trigger" 12 "command" "ask2ask" "aliases" (cslice "a2a" "ask" "support" ))
 }}
 
 {{ index $cmd_map }}
