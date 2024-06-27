@@ -21,6 +21,10 @@
 {{ $embed := sdict }}
 {{ $embed.Set "color" 2003199 }}
 {{- $cmdfields := ( cslice ) }}
+{{ $replytarget := (or .Message.ReferencedMessage .Message).ID }}
+
+
+{{/* Command map */}}
 
 {{ $cmd_map := cslice
 	(sdict "trigger" 1 "command" "banned" "aliases" (cslice "ban" "racefactory" "bloxburg" "appeal"))
@@ -44,9 +48,9 @@
 
 {{ range $cmd_map }}
     {{ $cmdfields = $cmdfields.Append (sdict 
-		"name" (joinStr " - " (joinStr ": " "ID" .trigger) (joinStr ": " "Command" .command))  
-		"value" (joinStr "\n" "Aliases: " (joinStr ", " .aliases)
-		"inline" false)) 
+		"name" (joinStr " - " (joinStr ": " "Command" .command))  
+		"value" (joinStr " " "Aliases: " (joinStr ", " .aliases))
+		"inline" true) 
 	}}
     {{- if eq "taglist" $command }}
         {{ $embed.Set "title" "Tag List" }}
@@ -64,12 +68,16 @@
     {{- end -}}
 {{ end }}
 
-{{ sendMessage nil (complexMessage "reply" .Message.ID "embed" $embed) }}
+{{ sendMessage nil (complexMessage "reply" $replytarget "embed" $embed) }}
 {{ sendMessage nil (complexMessage "content" (joinStr "" "You triggered response " $trigger)) }}
 
 {{/* ExecCC to call the main response trigger */}}
 {{execCC 75 .Channel.ID 0 (sdict 
 	"trigger" $trigger 
-	"message" .ReactionMessage.ID
+	"message" $replytarget
 	"note" "Just some extra info to passthrough if needed."
 )}}
+
+{{ $msg01 := getMessage nil 1255948621308760145 }}
+{{ $msg02 := getMessage nil $msg01.MessageReference.MessageID }}
+{{ sendMessage nil (complexMessage "embed" (sdict "fields" (cslice (sdict "name" "`.ReferencedMessage`" "value" $msg01.ReferencedMessage.Content "inline" false) (sdict "name" "Message Content" "value" $msg01.Content "inline" false) (sdict "name" "`MessageReference`" "value" $msg02.Content)) "color" 2003199)) }}
