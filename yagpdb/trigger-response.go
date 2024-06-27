@@ -47,11 +47,11 @@
 {{ end }}
 
 {{ range $cmd_map }}
-    {{ $cmdfields = $cmdfields.Append (sdict 
-		"name" (joinStr " - " (joinStr ": " "Command" .command))  
-		"value" (joinStr " " "Aliases: " (joinStr ", " .aliases))
-		"inline" true) 
-	}}
+	{{ $cmdfields = $cmdfields.Append (sdict 
+		"name" (printf "Command: `%s`" .command)  
+		"value" (printf "Aliases: `%s`" (joinStr "`, `" .aliases))
+		"inline" true
+	) }}
     {{- if eq "taglist" $command }}
         {{ $embed.Set "title" "Tag List" }}
         {{ $embed.Set "description" "Here is a list of all the tags available:" }}
