@@ -23,9 +23,7 @@
 {{- $cmdfields := ( cslice ) }}
 {{ $replytarget := (or .Message.ReferencedMessage .Message).ID }}
 
-
 {{/* Command map */}}
-
 {{ $cmd_map := cslice
 	(sdict "trigger" 1 "command" "banned" "aliases" (cslice "ban" "racefactory" "bloxburg" "appeal"))
 	(sdict "trigger" 2 "command" "wrongserver" "aliases" (cslice "ws"))
@@ -41,8 +39,8 @@
 	(sdict "trigger" 12 "command" "ask2ask" "aliases" (cslice "a2a" "ask" "support" ))
 }}
 
-{{/* Checks if the reaction is the bin emoji */}}
-{{ if not (or $prefix .ServerPrefix $command ) }}
+{{/* Escapes the response if the trigger is one of the prefixes, the server prefix or has no command*/}}
+{{ if not (and $prefix .ServerPrefix $command ) }}
 	{{ return }}
 {{ end }}
 
@@ -56,20 +54,18 @@
         {{ $embed.Set "title" "Tag List" }}
         {{ $embed.Set "description" "Here is a list of all the tags available:" }}
         {{ $embed.Set "fields" $cmdfields }}
-    {{- else if eq .command $command }}
-        {{ $trigger = .trigger }}
-		{{ break }}
-    {{- else if in .aliases $command}}
-		{{- $trigger = .trigger }}
-		{{ break }}
+		{{- else if or (eq .command $command) (in .aliases $command)}}
+			{{- $trigger = .trigger }}
     {{- else }}
         {{- $embed.Set "title" "Invalid Command!" }}
-        {{- $embed.Set "description" (joinStr "" "I'm sorry, I don't understand that command. Please use one of the commands in `" $prefix "taglist`")}}
+        {{- $embed.Set "description" (printf "The command `%s` is not valid. Please use one of the commands in `%s`" $command "taglist") }}
     {{- end -}}
 {{ end }}
 
-{{ sendMessage nil (complexMessage "reply" $replytarget "embed" $embed) }}
-{{ sendMessage nil (complexMessage "content" (joinStr "" "You triggered response " $trigger)) }}
+{{ if eq 0 $trigger}}
+	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
+{{ end }}
+{{ sendMessage nil (complexMessage "content" (joinStr "" "You triggered response " $trigger "The message id is: " $replytarget)) }}
 
 {{/* ExecCC to call the main response trigger */}}
 {{execCC 75 .Channel.ID 0 (sdict 
@@ -77,7 +73,3 @@
 	"message" $replytarget
 	"note" "Just some extra info to passthrough if needed."
 )}}
-
-{{ $msg01 := getMessage nil 1255948621308760145 }}
-{{ $msg02 := getMessage nil $msg01.MessageReference.MessageID }}
-{{ sendMessage nil (complexMessage "embed" (sdict "fields" (cslice (sdict "name" "`.ReferencedMessage`" "value" $msg01.ReferencedMessage.Content "inline" false) (sdict "name" "Message Content" "value" $msg01.Content "inline" false) (sdict "name" "`MessageReference`" "value" $msg02.Content)) "color" 2003199)) }}
