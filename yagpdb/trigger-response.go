@@ -65,7 +65,7 @@
 {{ if eq 0 $trigger}}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed) }}
 {{ end }}
-{{ sendMessage nil (complexMessage "content" (joinStr "" "You triggered response " $trigger "The message id is: " $replytarget)) }}
+{{ sendMessage nil (complexMessage "content" (joinStr "" "You triggered response " $trigger "\nThe message id is: " $replytarget)) }}
 
 {{/* ExecCC to call the main response trigger */}}
 {{execCC 75 .Channel.ID 0 (sdict 
