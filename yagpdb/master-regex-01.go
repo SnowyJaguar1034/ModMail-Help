@@ -12,7 +12,10 @@
 {{/* 11 : Logging response */}}
 {{/* 12 : General Help response */}}
 
-{{ if not (hasPrefix .Message.Content "=") }}
+{{ $replytarget := (or .Message.ReferencedMessage .Message).ID }}
+{{ $trigger := 0 }}
+
+{{ if (hasPrefix .Message.Content "=") }}
     {{ return }}
 {{ end }}
 
@@ -27,8 +30,6 @@
 {{ $selfhost := reFindAllSubmatches `(?i)(?:source|modmails?|bots?|bot's?|self(?:-)?host|host (?:modmail|bot)|(?:best|recommended|which) (?:virtual(?: private)? )?server)(?:'s)?(?: code| repo| github)` .Message.Content }}
 {{ $clyde := reFindAllSubmatches `(?i:only accepting (?:direct message|dm)s from friends|message (?:(?:could not be|not) delivered|blocked)|(?:don't share a|no (?:shared|mutual)) server|clyde(?:[- ]bot)?|i(?:'| a)?m blocked|bot blocked me)` .Message.Content }}
 {{ $globalticket := reFindAllSubmatches `(ticket|tickets|everyone) (can|see|sees|see's) (the )?(mail|ticket|tickets|my mail|mod mail|modmail|mod-mail) message` .Message.Content }}
-
-{{ $trigger := 0 }}
 
 {{ if $banned }}
 	{{ $trigger = 1}}

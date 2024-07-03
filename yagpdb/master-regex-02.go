@@ -12,7 +12,10 @@
 {{/* 11 : Logging response */}}
 {{/* 12 : General Help response */}}
 
-{{ if not (hasPrefix .Message.Content "=") }}
+{{ $replytarget := (or .Message.ReferencedMessage .Message).ID }}
+{{ $trigger := 0 }}
+
+{{ if (hasPrefix .Message.Content "=") }}
     {{ return }}
 {{ end }}
 
@@ -20,8 +23,6 @@
 {{ $logging := reFindAllSubmatches `\A(?:\-|<@!?204255221017214977>|!|.)\s*(?:logging|logs|transcript|file|viewer)(?: +|\z)` .Message.Content }}
 {{ $help := reFindAllSubmatches `(?i)(?:need (?:support|help|assistance|aid|advice)|(?:help|support) me)` .Message.Content }}
 
-
-{{ $trigger := 0 }}
 
 
 {{ if $logging }}
