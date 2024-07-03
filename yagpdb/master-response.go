@@ -14,7 +14,7 @@
 
 {{/* Defining varibles for use throughout the script */}}
 {{ $template := sdict "color" 2003199 }}
-{{ $replytarget := .ExecData.triggerMsgID }}
+{{ $replytarget := .ExecData.message }}
 {{ $alreadyreplied := false }}
 {{ $bin := ":bin:1251255316121653343" }}
 {{ $bookmark := ":bookmark:1251243802207846566" }}
