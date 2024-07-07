@@ -26,7 +26,7 @@
 {{ $replytarget := (or .Message.ReferencedMessage .Message).ID }}
 
 {{/* Command map */}}
-{{ $cmd_map := cslice
+{{ $response_mapping := cslice
 	(sdict 
 		"trigger" 1 
 		"command" "ask2ask" 
@@ -119,7 +119,7 @@
 	{{ return }}
 {{ end }}
 
-{{ range $cmd_map }}
+{{ range $response_mapping }}
 	{{ $cmdfields = $cmdfields.Append (sdict 
 		"name" (print (print "" "<:" .reaction ">") "" (printf "Command: `%s`" .command))  
 		"value" (printf "Aliases: `%s`" (joinStr "`, `" .aliases))

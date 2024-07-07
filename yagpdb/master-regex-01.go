@@ -33,7 +33,7 @@
 {{ $clyde := reFindAllSubmatches `(?i:only accepting (?:direct message|dm)s from friends|message (?:(?:could not be|not) delivered|blocked)|(?:don't share a|no (?:shared|mutual)) server|clyde(?:[- ]bot)?|i(?:'| a)?m blocked|bot blocked me)` .Message.Content }}
 {{ $globalticket := reFindAllSubmatches `(ticket|tickets|everyone) (can|see|sees|see's) (the )?(mail|ticket|tickets|my mail|mod mail|modmail|mod-mail) message` .Message.Content }}
 
-{{ $cmd_map := cslice
+{{ $response_mapping := cslice
 	(sdict 
 		"trigger" 1 
 		"command" "ask2ask" 
@@ -120,7 +120,7 @@
 	)
 }}
 
-{{ range $cmd_map }}
+{{ range $response_mapping }}
 	{{if gt .trigger 10}}
 		{{ break }}
 	{{end}}

@@ -25,7 +25,7 @@
 {{ $logging := reFindAllSubmatches `\A(?:\-|<@!?204255221017214977>|!|.)\s*(?:logging|logs|transcript|file|viewer)(?: +|\z)` .Message.Content }}
 {{ $help := reFindAllSubmatches `(?i)(?:need (?:support|help|assistance|aid|advice)|(?:help|support) me)` .Message.Content }}
 
-{{ $cmd_map := cslice
+{{ $response_mapping := cslice
 	(sdict 
 		"trigger" 1 
 		"command" "ask2ask" 
@@ -112,7 +112,7 @@
 	)
 }}
 
-{{ range $cmd_map }}
+{{ range $response_mapping }}
 	{{if and (le .trigger 10) true }}
 		{{ break }}
 	{{end}}

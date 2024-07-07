@@ -18,7 +18,7 @@
 {{ $replytarget := (or .ReactionMessage.ReferencedMessage .ReactionMessage).ID }}
 {{ $msgreaction := .Reaction.Emoji.APIName }}
 
-{{ $cmd_map := cslice
+{{ $response_mapping := cslice
 	(sdict 
 		"trigger" 1 
 		"command" "ask2ask" 
