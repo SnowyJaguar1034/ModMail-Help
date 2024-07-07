@@ -1,16 +1,17 @@
 {{/* $Trigger Key */}}
-{{/* 01 : Banned response*/}}
-{{/* 02 : Wrong Server response */}}
-{{/* 03 : Setup response */}}
-{{/* 04 : Open Ticket response */}}
-{{/* 05 : Premium response */}}
-{{/* 06 : Not Responding response */}}
-{{/* 07 : Custom Instance response */}}
-{{/* 08 : Sef Host response */}}
-{{/* 9 : Clyde response */}}
-{{/* 10 : Global Ticket response */}}
-{{/* 11 : Logging response */}}
-{{/* 12 : General Help response */}}
+{{/* 01 : General Help response */}}
+{{/* 02 : Banned response*/}}
+{{/* 03 : Wrong Server response */}}
+{{/* 04 : Setup response */}}
+{{/* 05 : Open Ticket response */}}
+{{/* 06 : Premium response */}}
+{{/* 07 : Not Responding response */}}
+{{/* 08 : Custom Instance response */}}
+{{/* 09 : Sef Host response */}}
+{{/* 10 : Clyde response */}}
+{{/* 11 : Global Ticket response */}}
+{{/* 12 : Logging response */}}
+{{/* 13 : Verfication response */}}
 
 {{/* Declaring variables */}}
 {{ $trigger := 0 }}
