@@ -1,16 +1,21 @@
+{{/* https://docs.yagpdb.xyz/reference/templates#templates.sdict */}}
+{{/* https://discord.com/channels/166207328570441728/578976698931085333/1248038506312237127 */}}
+{{/* https://discord.com/channels/166207328570441728/578976698931085333/1254524326632362036 */}}
+
 {{/* Criteria to match */}}
-{{/* 01 : Banned response*/}}
-{{/* 02 : Wrong Server response */}}
-{{/* 03 : Setup response */}}
-{{/* 04 : Open Ticket response */}}
-{{/* 05 : Premium response */}}
-{{/* 06 : Not Responding response */}}
-{{/* 07 : Custom Instance response */}}
-{{/* 08 : Sef Host response */}}
-{{/* 9 : Clyde response */}}
-{{/* 10 : Global Ticket response */}}
-{{/* 11 : Logging response */}}
-{{/* 12 : General Help response */}}
+{{/* 01 : General Help response */}}
+{{/* 02 : Banned response*/}}
+{{/* 03 : Wrong Server response */}}
+{{/* 04 : Setup response */}}
+{{/* 05 : Open Ticket response */}}
+{{/* 06 : Premium response */}}
+{{/* 07 : Not Responding response */}}
+{{/* 08 : Custom Instance response */}}
+{{/* 09 : Sef Host response */}}
+{{/* 10 : Clyde response */}}
+{{/* 11 : Global Ticket response */}}
+{{/* 12 : Logging response */}}
+{{/* 13 : Verfication response */}}
 
 {{/* Defining varibles for use throughout the script */}}
 {{ $template := sdict "color" 2003199 }}
@@ -19,10 +24,10 @@
 {{ $bin := ":bin:1251255316121653343" }}
 {{ $bookmark := ":bookmark:1251243802207846566" }}
 {{ $mail := ":mail:1251255870701047909" }}
-
-{{/* https://docs.yagpdb.xyz/reference/templates#templates.sdict */}}
-{{/* https://discord.com/channels/166207328570441728/578976698931085333/1248038506312237127 */}}
-{{/* https://discord.com/channels/166207328570441728/578976698931085333/1254524326632362036 */}}
+{{ $deletebutton := cbutton "label" "Delete Response" "custom_id" "support-response-delete" "style" 4 "emoji" (sdict "id" "1251255316121653343") }}
+{{ $bookmarkbutton := cbutton "label" "Bookmark Response" "custom_id" "support-response-bookmark" "style" 2 "emoji" (sdict "id" "1251243802207846566") }}
+{{ $corebuttons := cslice $deletebutton $bookmarkbutton }}
+{{ $extrabuttons := cslice }}
 
 {{ if eq .ExecData.trigger 0 }}
     {{ return }}
@@ -34,11 +39,11 @@
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
 	{{ end }}
-	{/* Add "banned" specific title and description */}}
+	{{/* Add "banned" specific title and description */}}
 	{{ if eq .ExecData.trigger 1 }}
 		{{ $embed.Set "title" "How do I get unbanned?" }}
 		{{ $embed.Set "description" "You cannot use ModMail to contact a server you are banned from." }}
-	{/* Add "wrong server" specific title and description */}}
+	{{/* Add "wrong server" specific title and description */}}
 	{{ else if eq .ExecData.trigger 2 }}
 		{{ $embed.Set "title" "How do I contact *XYZ* Server" }}
 		{{ $embed.Set "description" "Please DM the __**bot**__ <@575252669443211264> with your message instead. Make sure __**not**__ to select __ModMail Support__ as that will send it to this server" }}
@@ -53,7 +58,7 @@
 		"inline" true
 		)
 	)}}
-	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -76,7 +81,9 @@
 			"inline" true
 			)
 		)}}
-	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $corebuttons := $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "emoji" (sdict "id" "1258858981372330165")) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Invite ModMail" "custom_id" "support-response-invite" "url" "https://modmail.xyz/invite" "style" "link" "emoji" (sdict "id" "1251255870701047909")) (cbutton "label" "ModMail Commands (`=help`)" "custom_id" "support-response-commands" "url" "https://modmail.xyz/commands" "style" "link""emoji" (sdict "id" "1258858466081116293"))) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -101,7 +108,8 @@
 			"value" "If you are having trouble with the `=send` command, please ensure you are using the correct server ID. You can find this by right-clicking on the server name and selecting `Copy ID`."
 			"inline" false
 		))}}
-	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+		{{ $corebuttons = $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "emoji" (sdict "id" "1258858981372330165")) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -114,7 +122,8 @@
 	{{ end }}
 	{{ $embed.Set "title" "Donation Link" }}
 	{{ $embed.Set "description" "[Purchase ModMail Premium Here](https://modmail.xyz/premium)" }}
-	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Buy Premium" "custom_id" "support-response-premium" "url" "https://modmail.xyz/premium" "style" "link" "emoji" (sdict "id" "1251273319110414429")) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -128,6 +137,7 @@
 	{{ $embed.Set "title" "Advanced Logging Example" }}
 	{{ $embed.Set "description" "This is an example of what you'll get with advanced logging. https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" }}
 	{{ $file := "[2024-02-26 23:44:18] scyye#0 (User): Hello! I'm a user in need of assistance, can someone help me?\n[2024-02-26 23:44:43] scyye#0 (Comment): I am a staff member writing a comment on the ticket, for other staff to see\n[2024-02-26 23:45:16] scyye#0 (Staff): I am now replying to the user, asking them what they need help with.\n[2024-02-26 23:45:46] jrwallor#0 (Staff): Another staff member with an anonymous reply.\n[2024-02-26 23:45:58] scyye#0 (User): This is the user replying, thanking me for support (I didn't think this through, cut me some slack)\n[2024-02-26 23:46:36] scyye#0 (Comment): =c This ticket is resolved, so I'm closing it now." }}
+	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Example Logs" "custom_id" "support-response-logs" "url" "https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" "style" "link" "emoji" (sdict "id" "1254891424965722122")) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "file" $file) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
@@ -141,7 +151,8 @@
 	{{ end }}
 	{{ $embed.Set "title" "ModMail is not responding" }}
 	{{ $embed.Set "description" "If ModMail is not responding in your server, please check the following:\n- The bot has Read Messages, Send Messages, and Embed Links permissions.\n- You are using the correct prefix. Use `@ModMail prefix` to check the prefix.\n- The command you are using is valid. Check using `=help <command>`.\n- The bot is online. Discord might be having issues, or the bot might be restarting.\n\nIf the bot still does respond, please let us know your [server ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)." }}
-	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Discord ID Guide" "custom_id" "support-response-idguide" "url" "https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-" "style" "link" "emoji" (sdict "id" "1258860561869832246")) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -166,7 +177,7 @@
 		"value" "|<@381998065327931392> (`James [a_leon]`)\n|or\n|<@365262543872327681> (`snowyjaguar`)"
 		"inline" true
 	))}}
-	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -192,7 +203,8 @@
 		"value" "[Click here](https://gist.github.com/waterflamev8/cab61e680e2fb5ea6027cbf144732925)"
 		"inline" true
 	))}}
-	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "ModMail GitHub" "custom_id" "support-response-github" "url" "https://github.com/chamburr/modmail" "style" "link" "emoji" (sdict "id" "579211233840857109")) (cbutton "label" "Official V3 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail#self-hosting" "style" "link" "emoji" (sdict "id" "...")) (cbutton "label" "Official V2 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail/blob/v2.1.2/README.md#self-hosting" "style" "link" "emoji" (sdict "id" "...")) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -206,7 +218,7 @@
 	{{ $embed.Set "title" "My message wasn't delivered!" }}
 	{{ $embed.Set "description" "If you receive \"your message could not be delivered\", check your privacy settings for the server you want to contact. You need to enable the \"allow direct messages from server members\" option." }}
 	{{ $embed.Set "image" (sdict "url" "https://i.imgur.com/x5Hcio5.png") }}
-	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 	{{ end }}
@@ -219,20 +231,27 @@
 	{{ end }}
 	{{ $embed.Set "title" "Everyone can see my tickets!" }}
 	{{ $embed.Set "description" "If everyone in your server is able to view tickets, there is a chance that another bot in your server is interfering. This is not a problem with ModMail. We recommend checking the audit logs in your server settings to see which bot is changing the channel permissions." }}
-	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
 {{/* Check if trigger was "help" response */}}
-{{ if and ( eq .ExecData.trigger 12 ) ( not $alreadyreplied) }}
-	{{ $embed := sdict }}
-	{{ range $k, $v := $template }}
-		{{ $embed.Set $k $v}}
-	{{ end }}
-	{{ $embed.Set "title" "Don't just say `i need help`, tell us what you need help with!" }}
-	{{ $embed.Set "description" "[This saves all of us time and we can jump in to provide you with a solution!](https://dontasktoask.com/)" }}
-	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
-{{ end }}
 
+
+{{/* Check if trigger was "verification" response */}}
+{{ if eq .ExecData.trigger 13 }}
+	{{ $embed := sdict }}
+
+
+
+{{ if and ( eq .ExecData.trigger 1 ) ( not $alreadyreplied) }}
+{{ $embed := sdict }}
+{{ range $k, $v := $template }}
+	{{ $embed.Set $k $v}}
+{{ end }}
+{{ $embed.Set "title" "Don't just say `i need help`, tell us what you need help with!" }}
+{{ $embed.Set "description" "[This saves all of us time and we can jump in to provide you with a solution!](https://dontasktoask.com/)" }}
+{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
+{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
+{{ end }}
