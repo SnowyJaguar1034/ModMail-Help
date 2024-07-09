@@ -35,56 +35,56 @@
 		"regex" ``
 	)
 	(sdict 
-		"trigger" 02 
+		"trigger" 2 
 		"command" "banned" 
 		"reaction" "banned:1251258151425282289" 
 		"aliases" (cslice "ban" "racefactory" "bloxburg" "appeal") 
 		"regex" `(?i)ban|racefactory|bloxburg|appeal`
 	)
 	(sdict 
-		"trigger" 03 
+		"trigger" 3 
 		"command" "wrongserver" 
 		"reaction" "wrong_server:1251257683487494217" 
 		"aliases" (cslice "ws") 
 		"regex" `(?i)wrong server|not the right server|not the server`
 	)
 	(sdict 
-		"trigger" 04 
+		"trigger" 4 
 		"command" "setup" 
 		"reaction" "setup:1251258670981976126" 
 		"aliases" (cslice "gs" "getstarted" "config" "configure" "firststep" "fs" ) 
 		"regex" `(?i:modmail (?i:invite|joined|setup|added)|invite modmail|setup modmail|added modmail|setup bot|bot setup|bot added|setup`
 	)
 	(sdict 
-		"trigger" 05 
+		"trigger" 5 
 		"command" "ticket" 
 		"reaction" "ticket~1:1251258339518582787" 
 		"aliases" (cslice "thread" "message" "contact" "open" "create" "new" "start" "send" "mail" "support" )
 		"regex" `(?:m(?:essage (?:a )?server|sg (?:a )?server)|c(?:reate (?:a )?ticket|ustom commands)|open (?:a )?ticket)`
 	)
 	(sdict 
-		"trigger" 06 
+		"trigger" 6 
 		"command" "premium" 
 		"reaction" "premium:1251273319110414429" 
 		"aliases" (cslice "patreon" "patron" "donate")
 		"regex" `(?:message logs|(?:transcrip|snippe)ts|p(?:atreon|remium)|donate)`
 	)
 	(sdict 
-		"trigger" 07 
+		"trigger" 7 
 		"command" "notresponding" 
 		"reaction" "no_response:1251273446860783718" 
 		"aliases" (cslice "nr" "notworking" "noresponse" "nores" )
 		"regex" `(?:doesn't (?:seem to )?work|doesn't respond|isn(?:'t (?:respond|working)|t (?:respond|working))|no respon(?:se|d))`
 	)
 	(sdict 
-		"trigger" 08 
+		"trigger" 8 
 		"command" "custom" 
 		"reaction" "custom_instance:1251256312017457284" 
 		"aliases" (cslice "change" "customize" "instance" "name" "profile" "banner" "icon" "avatar" "pfp" "status" "private" "noverify" "bypass" )
 		"regex" `(?i)(?:bot(?:'?s)?|(?:change|customi[sz]e)(?: the)?) (?:name|profile|banner|icon|avatar|pfp|status)|bot(?:'?s)? user|customi[sz]e(?: the)? (?:instance|bot)|private (?:instance|bot)|(?:no|bypass) verif(?:ication|y)`
 	)
 	(sdict 
-		"trigger" 09 
+		"trigger" 9 
 		"command" "selfhost" 
 		"reaction" "selfhost:1251257779730124884" 
 		"aliases" (cslice "source" "vps" "sh" "github" )
@@ -111,6 +111,13 @@
 		"aliases" (cslice "logging+" "logs" "transcript" "file" "viewer" "loggingplus" "lp" "l+" "log" )
 		"regex" `(?i)(?:\-|<@!?204255221017214977>|!|.)\s*(?:logging|logs|transcript|file|viewer)(?: +|\z)`
 	)
+	(sdict
+		"trigger" 13
+		"command" "verification"
+		"reaction" "verification:125127354"
+		"aliases" (cslice "verify")
+		"regex" `(?i)verify|verification`
+	)
 }}
 
 
@@ -120,24 +127,15 @@
 {{ end }}
 
 {{ range $response_mapping }}
-	{{ $cmdfields = $cmdfields.Append (sdict 
-		"name" (print (print "" "<:" .reaction ">") "" (printf "Command: `%s`" .command))  
-		"value" (printf "Aliases: `%s`" (joinStr "`, `" .aliases))
-		"inline" true
-	) }}
-	{{ $cmdfieldst = $cmdfieldst.Append (sdict 
+	{{ $cmdfields = $cmdfieldst.Append (sdict 
 		"name" (print (print "" "<:" .reaction ">") " " (printf "`%s`" .command))  
 		"value" (printf "`%s`" (joinStr "`, `" .aliases))
 		"inline" true
 	) }}
     {{- if eq "taglist" $command }}
         {{ $embed.Set "title" "Tag List" }}
-        {{ $embed.Set "description" "Here is a list of all the tags available:" }}
-        {{ $embed.Set "fields" $cmdfields }}
-	{{- else if eq "taglist2" $command }}
-        {{ $embed.Set "title" "Tag List" }}
         {{ $embed.Set "description" "Here is a list of all the tags available with their corrosponding reaction and aliases:" }}
-        {{ $embed.Set "fields" $cmdfieldst }}
+        {{ $embed.Set "fields" $cmdfields }}
 	{{- else if or (eq .command $command) (in .aliases $command)}}
 			{{- $trigger = .trigger }}
     {{- else }}
