@@ -1,13 +1,13 @@
 {{/* $Trigger Key */}}
-{{/* 01 : General Help response */}}
-{{/* 02 : Banned response*/}}
-{{/* 03 : Wrong Server response */}}
-{{/* 04 : Setup response */}}
-{{/* 05 : Open Ticket response */}}
-{{/* 06 : Premium response */}}
-{{/* 07 : Not Responding response */}}
-{{/* 08 : Custom Instance response */}}
-{{/* 09 : Sef Host response */}}
+{{/* 1 : General Help response */}}
+{{/* 2 : Banned response*/}}
+{{/* 3 : Wrong Server response */}}
+{{/* 4 : Setup response */}}
+{{/* 5 : Open Ticket response */}}
+{{/* 6 : Premium response */}}
+{{/* 7 : Not Responding response */}}
+{{/* 8 : Custom Instance response */}}
+{{/* 9 : Sef Host response */}}
 {{/* 10 : Clyde response */}}
 {{/* 11 : Global Ticket response */}}
 {{/* 12 : Logging response */}}
@@ -27,56 +27,56 @@
 		"regex" ``
 	)
 	(sdict 
-		"trigger" 02 
+		"trigger" 2 
 		"command" "banned" 
 		"reaction" "banned:1251258151425282289" 
 		"aliases" (cslice "ban" "racefactory" "bloxburg" "appeal") 
 		"regex" `(?i)ban|racefactory|bloxburg|appeal`
 	)
 	(sdict 
-		"trigger" 03 
+		"trigger" 3 
 		"command" "wrongserver" 
 		"reaction" "wrong_server:1251257683487494217" 
 		"aliases" (cslice "ws") 
 		"regex" `(?i)wrong server|not the right server|not the server`
 	)
 	(sdict 
-		"trigger" 04 
+		"trigger" 4 
 		"command" "setup" 
 		"reaction" "setup:1251258670981976126" 
 		"aliases" (cslice "gs" "getstarted" "config" "configure" "firststep" "fs" ) 
 		"regex" `(?i:modmail (?i:invite|joined|setup|added)|invite modmail|setup modmail|added modmail|setup bot|bot setup|bot added|setup`
 	)
 	(sdict 
-		"trigger" 05 
+		"trigger" 5 
 		"command" "ticket" 
 		"reaction" "ticket~1:1251258339518582787" 
 		"aliases" (cslice "thread" "message" "contact" "open" "create" "new" "start" "send" "mail" "support" )
 		"regex" `(?:m(?:essage (?:a )?server|sg (?:a )?server)|c(?:reate (?:a )?ticket|ustom commands)|open (?:a )?ticket)`
 	)
 	(sdict 
-		"trigger" 06 
+		"trigger" 6 
 		"command" "premium" 
 		"reaction" "premium:1251273319110414429" 
 		"aliases" (cslice "patreon" "patron" "donate")
 		"regex" `(?:message logs|(?:transcrip|snippe)ts|p(?:atreon|remium)|donate)`
 	)
 	(sdict 
-		"trigger" 07 
+		"trigger" 7 
 		"command" "notresponding" 
 		"reaction" "no_response:1251273446860783718" 
 		"aliases" (cslice "nr" "notworking" "noresponse" "nores" )
 		"regex" `(?:doesn't (?:seem to )?work|doesn't respond|isn(?:'t (?:respond|working)|t (?:respond|working))|no respon(?:se|d))`
 	)
 	(sdict 
-		"trigger" 08 
+		"trigger" 8 
 		"command" "custom" 
 		"reaction" "custom_instance:1251256312017457284" 
 		"aliases" (cslice "change" "customize" "instance" "name" "profile" "banner" "icon" "avatar" "pfp" "status" "private" "noverify" "bypass" )
 		"regex" `(?i)(?:bot(?:'?s)?|(?:change|customi[sz]e)(?: the)?) (?:name|profile|banner|icon|avatar|pfp|status)|bot(?:'?s)? user|customi[sz]e(?: the)? (?:instance|bot)|private (?:instance|bot)|(?:no|bypass) verif(?:ication|y)`
 	)
 	(sdict 
-		"trigger" 09 
+		"trigger" 9 
 		"command" "selfhost" 
 		"reaction" "selfhost:1251257779730124884" 
 		"aliases" (cslice "source" "vps" "sh" "github" )
@@ -107,13 +107,12 @@
 
 
 {{/* Checks if the reaction is the bin emoji */}}
-{{ if and (eq .ReactionMessage.Author.ID .BotUser.ID) (not (in $reaction_map .Reaction.Emoji.APIName)) }}
+{{ if and (eq .ReactionMessage.Author.ID .BotUser.ID) (not (in $response_mapping .Reaction.Emoji.APIName)) }}
 	{{ return }}
 {{ end }}
 
 
-{{ range $reaction_map }}
-	
+{{ range $response_mapping }}
 	{{ if eq $msgreaction .reaction }}
 		{{ $trigger = .trigger }}
     {{- end -}}
