@@ -24,8 +24,8 @@
 {{ $bin := ":bin:1251255316121653343" }}
 {{ $bookmark := ":bookmark:1251243802207846566" }}
 {{ $mail := ":mail:1251255870701047909" }}
-{{ $deletebutton := cbutton "label" "Delete Response" "custom_id" "support-response-delete" "style" 4 "emoji" (sdict "id" "1251255316121653343") }}
-{{ $bookmarkbutton := cbutton "label" "Bookmark Response" "custom_id" "support-response-bookmark" "style" 2 "emoji" (sdict "id" "1251243802207846566") }}
+{{ $deletebutton := cbutton "label" "Delete Response" "custom_id" "support-response-delete" "style" 4 "disabled" true "emoji" (sdict "id" "1251255316121653343") }}
+{{ $bookmarkbutton := cbutton "label" "Bookmark Response" "custom_id" "support-response-bookmark" "style" 2 "disabled" true "emoji" (sdict "id" "1251243802207846566") }}
 {{ $corebuttons := cslice $deletebutton $bookmarkbutton }}
 {{ $extrabuttons := cslice }}
 
@@ -34,17 +34,17 @@
 {{ end }}
 
 {{/* Check if trigger was "banned" or "wrong server" response */}}
-{{ if eq .ExecData.trigger 1 2 }}
+{{ if eq .ExecData.trigger 2 3 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
 	{{ end }}
 	{{/* Add "banned" specific title and description */}}
-	{{ if eq .ExecData.trigger 1 }}
+	{{ if eq .ExecData.trigger 2 }}
 		{{ $embed.Set "title" "How do I get unbanned?" }}
 		{{ $embed.Set "description" "You cannot use ModMail to contact a server you are banned from." }}
 	{{/* Add "wrong server" specific title and description */}}
-	{{ else if eq .ExecData.trigger 2 }}
+	{{ else if eq .ExecData.trigger 3 }}
 		{{ $embed.Set "title" "How do I contact *XYZ* Server" }}
 		{{ $embed.Set "description" "Please DM the __**bot**__ <@575252669443211264> with your message instead. Make sure __**not**__ to select __ModMail Support__ as that will send it to this server" }}
 	{{ end }}
@@ -64,7 +64,7 @@
 {{ end }}
 
 {{/* Check if trigger was "setup" response */}}
-{{ if eq .ExecData.trigger 3 }}
+{{ if eq .ExecData.trigger 4 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -81,15 +81,15 @@
 			"inline" true
 			)
 		)}}
-	{{ $corebuttons := $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "emoji" (sdict "id" "1258858981372330165")) }}
-	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Invite ModMail" "custom_id" "support-response-invite" "url" "https://modmail.xyz/invite" "style" "link" "emoji" (sdict "id" "1251255870701047909")) (cbutton "label" "ModMail Commands (`=help`)" "custom_id" "support-response-commands" "url" "https://modmail.xyz/commands" "style" "link""emoji" (sdict "id" "1258858466081116293"))) }}
+	{{ $corebuttons := $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Invite ModMail" "custom_id" "support-response-invite" "url" "https://modmail.xyz/invite" "style" "link" "emoji" (sdict "id" "1251255870701047909")) (cbutton "label" "ModMail Commands (=help)" "custom_id" "support-response-commands" "url" "https://modmail.xyz/commands" "style" "link" "emoji" (sdict "id" "1258858466081116293"))) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
 {{/* Check if trigger was "open ticket" response */}}
-{{ if eq .ExecData.trigger 4 }}
+{{ if eq .ExecData.trigger 5 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -108,14 +108,14 @@
 			"value" "If you are having trouble with the `=send` command, please ensure you are using the correct server ID. You can find this by right-clicking on the server name and selecting `Copy ID`."
 			"inline" false
 		))}}
-		{{ $corebuttons = $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "emoji" (sdict "id" "1258858981372330165")) }}
+		{{ $corebuttons = $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
 {{/* Check if trigger was "premium" response */}}
-{{ if eq .ExecData.trigger 5 }}
+{{ if eq .ExecData.trigger 6 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -144,21 +144,21 @@
 {{ end }}
 
 {{/* Check if trigger was "not responding" response */}}
-{{ if eq .ExecData.trigger 6 }}
+{{ if eq .ExecData.trigger 7 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
 	{{ end }}
 	{{ $embed.Set "title" "ModMail is not responding" }}
 	{{ $embed.Set "description" "If ModMail is not responding in your server, please check the following:\n- The bot has Read Messages, Send Messages, and Embed Links permissions.\n- You are using the correct prefix. Use `@ModMail prefix` to check the prefix.\n- The command you are using is valid. Check using `=help <command>`.\n- The bot is online. Discord might be having issues, or the bot might be restarting.\n\nIf the bot still does respond, please let us know your [server ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)." }}
-	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Discord ID Guide" "custom_id" "support-response-idguide" "url" "https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-" "style" "link" "emoji" (sdict "id" "1258860561869832246")) }}
+	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Discord ID Guide" "custom_id" "support-response-idguide" "url" "https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-" "style" "link" "emoji" (sdict "id" "579210587557462021")) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
 {{/* Check if trigger was "custom instance" response */}}
-{{ if eq .ExecData.trigger 7 }}
+{{ if eq .ExecData.trigger 8 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -183,7 +183,7 @@
 {{ end }}
 
 {{/* Check if trigger was "self host" response */}}
-{{ if eq .ExecData.trigger 8 }}
+{{ if eq .ExecData.trigger 9 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -203,14 +203,14 @@
 		"value" "[Click here](https://gist.github.com/waterflamev8/cab61e680e2fb5ea6027cbf144732925)"
 		"inline" true
 	))}}
-	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "ModMail GitHub" "custom_id" "support-response-github" "url" "https://github.com/chamburr/modmail" "style" "link" "emoji" (sdict "id" "579211233840857109")) (cbutton "label" "Official V3 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail#self-hosting" "style" "link" "emoji" (sdict "id" "...")) (cbutton "label" "Official V2 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail/blob/v2.1.2/README.md#self-hosting" "style" "link" "emoji" (sdict "id" "...")) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "ModMail GitHub" "custom_id" "support-response-github" "url" "https://github.com/chamburr/modmail" "style" "link" "emoji" (sdict "id" "579211233840857109")) (cbutton "label" "Official V3 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail#self-hosting" "style" "link" "emoji" (sdict "id" "...")) (cbutton "label" "Official V2 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail/blob/v2.1.2/README.md#self-hosting" "style" "link" "emoji" (sdict "id" "..."))) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
 {{/* Check if trigger was "clyde" response */}}
-{{ if eq .ExecData.trigger 9 }}
+{{ if eq .ExecData.trigger 10 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -224,7 +224,7 @@
 	{{ end }}
 
 {{/* Check if trigger was "globalticket" response */}}
-{{ if eq .ExecData.trigger 10 }}
+{{ if eq .ExecData.trigger 11 }}
 	{{ $embed := sdict }}
 	{{ range $k, $v := $template }}
 		{{ $embed.Set $k $v}}
@@ -236,22 +236,39 @@
 	{{ $alreadyreplied := true }}
 {{ end }}
 
-{{/* Check if trigger was "help" response */}}
-
-
 {{/* Check if trigger was "verification" response */}}
 {{ if eq .ExecData.trigger 13 }}
 	{{ $embed := sdict }}
-
-
-
-{{ if and ( eq .ExecData.trigger 1 ) ( not $alreadyreplied) }}
-{{ $embed := sdict }}
-{{ range $k, $v := $template }}
-	{{ $embed.Set $k $v}}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+	{{ end }}
+	{{ $embed.Set "title" "ModMail Verfication" }}
+	{{ $embed.Set "description" "If you are having trouble verifying, please check the following:" }}
+	{{ $embed.Set "image" (sdict "url" "https://media.discordapp.net/attachments/576764484065165313/985238549886562374/unknown.png") }}
+	{{ $embed.Set "fields" (cslice (sdict
+		"name" "Confirm Correct Discord Account in Browser"
+		"value" "Go to [Discord Login](https://discord.com/login) and check check the account shown.\nIf it's incorrect you might have an alt or unclaimed account on your browser.\nTry the following:"
+		"inline" false
+	) (sdict
+		"name" "Open Verfication Link in Incognito"
+		"value" "Yes, this can be done on mobile!\nThis ignores saved logins and prompts a fresh login screen."
+		"inline" false
+	)) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Discord Login" "custom_id" "support-response-discordlogin" "url" "https://discord.com/login" "style" "link" "emoji" (sdict "id" "579210587557462021")) (cbutton "label" "Incognito Browser Guide" "custom_id" "support-response-incognito" "url" "https://incognitobrowser.io/step-by-step-guide-to-using-incognito-mode-on-chrome-firefox-and-safari/" "style" "link")) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
+	{{ $alreadyreplied := true }}
 {{ end }}
-{{ $embed.Set "title" "Don't just say `i need help`, tell us what you need help with!" }}
-{{ $embed.Set "description" "[This saves all of us time and we can jump in to provide you with a solution!](https://dontasktoask.com/)" }}
-{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
+
+
+{{/* Check if trigger was "help" response */}}
+{{ if and ( eq .ExecData.trigger 1 ) ( not $alreadyreplied) }}
+	{{ $embed := sdict }}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+	{{ end }}
+	{{ $embed.Set "title" "Don't just say `i need help`, tell us what you need help with!" }}
+	{{ $embed.Set "description" "[This saves all of us time and we can jump in to provide you with a solution!](https://dontasktoask.com/)" }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 {{ end }}
