@@ -16,6 +16,8 @@
 {{/* 11 : Global Ticket response */}}
 {{/* 12 : Logging response */}}
 {{/* 13 : Verfication response */}}
+{{/* 14 : Permission response */}}
+
 
 {{/* Defining varibles for use throughout the script */}}
 {{ $template := sdict "color" 2003199 }}
@@ -24,6 +26,7 @@
 {{ $bin := ":bin:1251255316121653343" }}
 {{ $bookmark := ":bookmark:1251243802207846566" }}
 {{ $mail := ":mail:1251255870701047909" }}
+{{ $discordlogo := "579210587557462021" }}
 {{ $deletebutton := cbutton "label" "Delete Response" "custom_id" "support-response-delete" "style" 4 "disabled" true "emoji" (sdict "id" "1251255316121653343") }}
 {{ $bookmarkbutton := cbutton "label" "Bookmark Response" "custom_id" "support-response-bookmark" "style" 2 "disabled" true "emoji" (sdict "id" "1251243802207846566") }}
 {{ $corebuttons := cslice $deletebutton $bookmarkbutton }}
@@ -151,7 +154,7 @@
 	{{ end }}
 	{{ $embed.Set "title" "ModMail is not responding" }}
 	{{ $embed.Set "description" "If ModMail is not responding in your server, please check the following:\n- The bot has Read Messages, Send Messages, and Embed Links permissions.\n- You are using the correct prefix. Use `@ModMail prefix` to check the prefix.\n- The command you are using is valid. Check using `=help <command>`.\n- The bot is online. Discord might be having issues, or the bot might be restarting.\n\nIf the bot still does respond, please let us know your [server ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)." }}
-	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Discord ID Guide" "custom_id" "support-response-idguide" "url" "https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-" "style" "link" "emoji" (sdict "id" "579210587557462021")) }}
+	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Discord ID Guide" "custom_id" "support-response-idguide" "url" "https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-" "style" "link" "emoji" (sdict "id" $discordlogo)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
@@ -174,7 +177,7 @@
 		"inline" true
 	) (sdict 
 		"name" "Contact" 
-		"value" "|<@381998065327931392> (`James [a_leon]`)\n|or\n|<@365262543872327681> (`snowyjaguar`)"
+		"value" "| <@381998065327931392> (`James [a_leon]`)\n|or\n| <@365262543872327681> (`snowyjaguar`)"
 		"inline" true
 	))}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
@@ -254,11 +257,28 @@
 		"value" "Yes, this can be done on mobile!\nThis ignores saved logins and prompts a fresh login screen."
 		"inline" false
 	)) }}
-	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Discord Login" "custom_id" "support-response-discordlogin" "url" "https://discord.com/login" "style" "link" "emoji" (sdict "id" "579210587557462021")) (cbutton "label" "Incognito Browser Guide" "custom_id" "support-response-incognito" "url" "https://incognitobrowser.io/step-by-step-guide-to-using-incognito-mode-on-chrome-firefox-and-safari/" "style" "link")) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Discord Login" "custom_id" "support-response-discordlogin" "url" "https://discord.com/login" "style" "link" "emoji" (sdict "id" $discordlogo)) (cbutton "label" "Incognito Browser Guide" "custom_id" "support-response-incognito" "url" "https://incognitobrowser.io/step-by-step-guide-to-using-incognito-mode-on-chrome-firefox-and-safari/" "style" "link")) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
+
+{{/* Check if trigger was "permission" response */}}
+{{ if eq .ExecData.trigger 14 }}
+	{{ $embed := sdict }}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+	{{ end }}
+	{{ $embed.Set "title" "ModMail Permissions" }}
+	{{ $embed.Set "description" "If you are having trouble with ModMail, please check the following:" }}
+	{{ $embed.Set "image" (sdict "url" "https://media.discordapp.net/attachments/576764854673735680/863863546915979274/unknown-4.png") }}
+	{{ $embed.Set "fields" (cslice (sdict
+		"name" "Note"
+		"value" "The adminatorpermission is not required for ModMail to function. It can be useful for troubleshooting or preventing conflicts with other bots."
+		"inline" false
+	)) }}
+	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "Discord Permissions FAQ" "custom_id" "support-response-permissions" "url" "https://support.discord.com/hc/en-us/articles/206029707-Setting-Up-Permissions-FAQ" "style" "link" "emoji" (sdict "id" $discordlogo)) }}
+
 
 
 {{/* Check if trigger was "help" response */}}
