@@ -27,9 +27,6 @@
 {{ $template := sdict "color" 2003199 }}
 {{ $replytarget := .ExecData.message }}
 {{ $alreadyreplied := false }}
-{{ $bin := ":bin:1251255316121653343" }}
-{{ $bookmark := ":bookmark:1251243802207846566" }}
-{{ $mail := ":mail:1251255870701047909" }}
 {{ $modmaillogo := "702099194701152266" }}
 {{ $discordlogo := "579210587557462021" }}
 {{ $deletebutton := cbutton "label" "Delete Response" "custom_id" "support-response-delete" "style" 4 "disabled" true "emoji" (sdict "id" "1251255316121653343") }}
@@ -67,7 +64,6 @@
 		)
 	)}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -92,7 +88,6 @@
 	{{ $corebuttons := $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
 	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Invite ModMail" "custom_id" "support-response-invite" "url" "https://modmail.xyz/invite" "style" "link" "emoji" (sdict "id" $modmaillogo)) (cbutton "label" "ModMail Commands (=help)" "custom_id" "support-response-commands" "url" "https://modmail.xyz/commands" "style" "link" "emoji" (sdict "id" $modmaillogo ))) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -118,7 +113,6 @@
 		))}}
 		{{ $corebuttons = $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -132,7 +126,6 @@
 	{{ $embed.Set "description" "[Purchase ModMail Premium Here](https://modmail.xyz/premium)" }}
 	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "Buy Premium" "custom_id" "support-response-premium" "url" "https://modmail.xyz/premium" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -147,7 +140,6 @@
 	{{ $file := "[2024-02-26 23:44:18] scyye#0 (User): Hello! I'm a user in need of assistance, can someone help me?\n[2024-02-26 23:44:43] scyye#0 (Comment): I am a staff member writing a comment on the ticket, for other staff to see\n[2024-02-26 23:45:16] scyye#0 (Staff): I am now replying to the user, asking them what they need help with.\n[2024-02-26 23:45:46] jrwallor#0 (Staff): Another staff member with an anonymous reply.\n[2024-02-26 23:45:58] scyye#0 (User): This is the user replying, thanking me for support (I didn't think this through, cut me some slack)\n[2024-02-26 23:46:36] scyye#0 (Comment): =c This ticket is resolved, so I'm closing it now." }}
 	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Example Logs" "custom_id" "support-response-logs" "url" "https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "file" $file) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -161,7 +153,6 @@
 	{{ $embed.Set "description" "If ModMail is not responding in your server, please check the following:\n- The bot has Read Messages, Send Messages, and Embed Links permissions.\n- You are using the correct prefix. Use `@ModMail prefix` to check the prefix.\n- The command you are using is valid. Check using `=help <command>`.\n- The bot is online. Discord might be having issues, or the bot might be restarting.\n\nIf the bot still does respond, please let us know your [server ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)." }}
 	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Discord ID Guide" "custom_id" "support-response-idguide" "url" "https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-" "style" "link" "emoji" (sdict "id" $discordlogo)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -186,7 +177,6 @@
 		"inline" true
 	))}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -227,7 +217,6 @@
 	{{ $embed.Set "description" "If you receive \"your message could not be delivered\", check your privacy settings for the server you want to contact. You need to enable the \"allow direct messages from server members\" option." }}
 	{{ $embed.Set "image" (sdict "url" "https://i.imgur.com/x5Hcio5.png") }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 	{{ end }}
 
@@ -249,7 +238,6 @@
 		"inline" false
 	)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -273,7 +261,6 @@
 	)) }}
 	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Discord Login" "custom_id" "support-response-discordlogin" "url" "https://discord.com/login" "style" "link" "emoji" (sdict "id" $discordlogo)) (cbutton "label" "Incognito Browser Guide" "custom_id" "support-response-incognito" "url" "https://incognitobrowser.io/step-by-step-guide-to-using-incognito-mode-on-chrome-firefox-and-safari/" "style" "link")) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -293,7 +280,6 @@
 	)) }}
 	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "Discord Permissions FAQ" "custom_id" "support-response-permissions" "url" "https://support.discord.com/hc/en-us/articles/206029707-Setting-Up-Permissions-FAQ" "style" "link" "emoji" (sdict "id" $discordlogo)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -307,7 +293,6 @@
 	{{ $embed.Set "description" "[https://discord.com/oauth2/authorize?client_id=575252669443211264&permissions=268823640&response_type=code&redirect_uri=https%3A%2F%2Fmodmail.xyz%2Fwelcome&scope=bot+applications.commands](https://discord.com/oauth2/authorize?client_id=575252669443211264&permissions=268823640&response_type=code&redirect_uri=https%3A%2F%2Fmodmail.xyz%2Fwelcome&scope=bot+applications.commands)" }}
 	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "ModMail Raw Invite" "custom_id" "support-response-invite" "url" "https://discord.com/oauth2/authorize?client_id=575252669443211264&permissions=268823640&response_type=code&redirect_uri=https%3A%2F%2Fmodmail.xyz%2Fwelcome&scope=bot+applications.commands" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -321,7 +306,6 @@
 	{{ $embed.Set "description" "ModMail is experiencing issues at this time, no ETA. It will be fixed when the Developer is available." }}
 	{{ $embed.Set "thumbnail" (sdict "url" "https://cdn.discordapp.com/avatars/575252669443211264/7050131180642ef969d1ac28bd7354b6.png?size=1024") }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -340,7 +324,6 @@
 		"inline" false
 	)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -354,7 +337,6 @@
 	{{ $embed.Set "description" "You can view the [bot status page](https://modmail.xyz/status) to see if there is any known outage." }}
 	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "ModMail Status" "custom_id" "support-response-status" "url" "https://modmail.xyz/status" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
 
@@ -368,5 +350,4 @@
 	{{ $embed.Set "title" "Don't just say `i need help`, tell us what you need help with!" }}
 	{{ $embed.Set "description" "[This saves all of us time and we can jump in to provide you with a solution!](https://dontasktoask.com/)" }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
-	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 {{ end }}
