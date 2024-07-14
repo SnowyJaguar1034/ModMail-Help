@@ -74,7 +74,6 @@
 		{{ $embed.Set $k $v}}
 	{{ end }}
 	{{ $embed.Set "title" "How do I setup ModMail?" }}
-	{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see bonus information") }}
 	{{ $embed.Set "fields" (cslice (sdict 
 			"name" "Initial Setup"
 			"value" "**1.** [Invite the bot](https://modmail.xyz/invite).\n**2.** Run `=setup` in your server.\n**3.** Done! :tada:\n\nYou can use `=help` for a [list of commands.](https://modmail.xyz/commands)"
@@ -98,7 +97,6 @@
 		{{ $embed.Set $k $v}}
 	{{ end }}
 	{{ $embed.Set "title" "How do I open a ticket?" }}
-	{{ $embed.Set "footer" (sdict "text" "Click the reaction below to see bonus information") }}
 	{{ $embed.Set "fields" (cslice (sdict 
 			"name" "Method One: Message the Bot" 
 			"value" "The quickest and simplest way to open a ticket is to DM the bot a message and follow the given prompts."
