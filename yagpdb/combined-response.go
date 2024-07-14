@@ -29,8 +29,8 @@
 {{ $alreadyreplied := false }}
 {{ $modmaillogo := "702099194701152266" }}
 {{ $discordlogo := "579210587557462021" }}
-{{ $deletebutton := cbutton "label" "Delete Response" "custom_id" "support-response-delete" "style" 4 "disabled" true "emoji" (sdict "id" "1251255316121653343") }}
-{{ $bookmarkbutton := cbutton "label" "Bookmark Response" "custom_id" "support-response-bookmark" "style" 2 "disabled" true "emoji" (sdict "id" "1251243802207846566") }}
+{{ $deletebutton := cbutton "label" "Delete Response" "custom_id" "mmsr-delete" "style" 4 "disabled" true "emoji" (sdict "id" "1251255316121653343") }}
+{{ $bookmarkbutton := cbutton "label" "Bookmark Response" "custom_id" "mmsr-bookmark" "style" 2 "disabled" true "emoji" (sdict "id" "1251243802207846566") }}
 {{ $corebuttons := cslice $deletebutton $bookmarkbutton }}
 {{ $extrabuttons := cslice }}
 
@@ -84,8 +84,8 @@
 			"inline" true
 			)
 		)}}
-	{{ $corebuttons := $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
-	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Invite ModMail" "custom_id" "support-response-invite" "url" "https://modmail.xyz/invite" "style" "link" "emoji" (sdict "id" $modmaillogo)) (cbutton "label" "ModMail Commands (=help)" "custom_id" "support-response-commands" "url" "https://modmail.xyz/commands" "style" "link" "emoji" (sdict "id" $modmaillogo ))) }}
+	{{ $corebuttons := $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "mmsr-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Invite ModMail" "custom_id" "mmsr-invite" "url" "https://modmail.xyz/invite" "style" "link" "emoji" (sdict "id" $modmaillogo)) (cbutton "label" "ModMail Commands (=help)" "custom_id" "mmsr-commands" "url" "https://modmail.xyz/commands" "style" "link" "emoji" (sdict "id" $modmaillogo ))) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -109,7 +109,7 @@
 			"value" "If you are having trouble with the `=send` command, please ensure you are using the correct server ID. You can find this by right-clicking on the server name and selecting `Copy ID`."
 			"inline" false
 		))}}
-		{{ $corebuttons = $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
+		{{ $corebuttons = $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "mmsr-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -122,7 +122,7 @@
 	{{ end }}
 	{{ $embed.Set "title" "Donation Link" }}
 	{{ $embed.Set "description" "[Purchase ModMail Premium Here](https://modmail.xyz/premium)" }}
-	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "Buy Premium" "custom_id" "support-response-premium" "url" "https://modmail.xyz/premium" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
+	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "Buy Premium" "custom_id" "mmsr-premium" "url" "https://modmail.xyz/premium" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -136,7 +136,7 @@
 	{{ $embed.Set "title" "Advanced Logging Example" }}
 	{{ $embed.Set "description" "This is an example of what you'll get with advanced logging. https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" }}
 	{{ $file := "[2024-02-26 23:44:18] scyye#0 (User): Hello! I'm a user in need of assistance, can someone help me?\n[2024-02-26 23:44:43] scyye#0 (Comment): I am a staff member writing a comment on the ticket, for other staff to see\n[2024-02-26 23:45:16] scyye#0 (Staff): I am now replying to the user, asking them what they need help with.\n[2024-02-26 23:45:46] jrwallor#0 (Staff): Another staff member with an anonymous reply.\n[2024-02-26 23:45:58] scyye#0 (User): This is the user replying, thanking me for support (I didn't think this through, cut me some slack)\n[2024-02-26 23:46:36] scyye#0 (Comment): =c This ticket is resolved, so I'm closing it now." }}
-	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Example Logs" "custom_id" "support-response-logs" "url" "https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
+	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Example Logs" "custom_id" "mmsr-logs" "url" "https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed "file" $file) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -149,7 +149,7 @@
 	{{ end }}
 	{{ $embed.Set "title" "ModMail is not responding" }}
 	{{ $embed.Set "description" "If ModMail is not responding in your server, please check the following:\n- The bot has Read Messages, Send Messages, and Embed Links permissions.\n- You are using the correct prefix. Use `@ModMail prefix` to check the prefix.\n- The command you are using is valid. Check using `=help <command>`.\n- The bot is online. Discord might be having issues, or the bot might be restarting.\n\nIf the bot still does respond, please let us know your [server ID](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)." }}
-	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Discord ID Guide" "custom_id" "support-response-idguide" "url" "https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-" "style" "link" "emoji" (sdict "id" $discordlogo)) }}
+	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Discord ID Guide" "custom_id" "mmsr-idguide" "url" "https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-" "style" "link" "emoji" (sdict "id" $discordlogo)) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -199,7 +199,7 @@
 		"value" "[Click here](https://gist.github.com/waterflamev8/cab61e680e2fb5ea6027cbf144732925)"
 		"inline" true
 	))}}
-	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "ModMail GitHub" "custom_id" "support-response-github" "url" "https://github.com/chamburr/modmail" "style" "link" "emoji" (sdict "id" "579211233840857109")) (cbutton "label" "Official V3 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail#self-hosting" "style" "link" "emoji" (sdict "id" "579211233840857109")) (cbutton "label" "Official V2 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail/blob/v2.1.2/README.md#self-hosting" "style" "link" "emoji" (sdict "id" "579211233840857109"))) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "ModMail GitHub" "custom_id" "mmsr-github" "url" "https://github.com/chamburr/modmail" "style" "link" "emoji" (sdict "id" "579211233840857109")) (cbutton "label" "Official V3 Guide" "custom_id" "mmsr-officialv3" "url" "https://github.com/chamburr/modmail#self-hosting" "style" "link" "emoji" (sdict "id" "579211233840857109")) (cbutton "label" "Official V2 Guide" "custom_id" "mmsr-officialv3" "url" "https://github.com/chamburr/modmail/blob/v2.1.2/README.md#self-hosting" "style" "link" "emoji" (sdict "id" "579211233840857109"))) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
@@ -257,7 +257,7 @@
 		"value" "Yes, this can be done on mobile!\nThis ignores saved logins and prompts a fresh login screen."
 		"inline" false
 	)) }}
-	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Discord Login" "custom_id" "support-response-discordlogin" "url" "https://discord.com/login" "style" "link" "emoji" (sdict "id" $discordlogo)) (cbutton "label" "Incognito Browser Guide" "custom_id" "support-response-incognito" "url" "https://incognitobrowser.io/step-by-step-guide-to-using-incognito-mode-on-chrome-firefox-and-safari/" "style" "link")) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Discord Login" "custom_id" "mmsr-discordlogin" "url" "https://discord.com/login" "style" "link" "emoji" (sdict "id" $discordlogo)) (cbutton "label" "Incognito Browser Guide" "custom_id" "mmsr-incognito" "url" "https://incognitobrowser.io/step-by-step-guide-to-using-incognito-mode-on-chrome-firefox-and-safari/" "style" "link")) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -276,7 +276,7 @@
 		"value" "The adminatorpermission is not required for ModMail to function. It can be useful for troubleshooting or preventing conflicts with other bots."
 		"inline" false
 	)) }}
-	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "Discord Permissions FAQ" "custom_id" "support-response-permissions" "url" "https://support.discord.com/hc/en-us/articles/206029707-Setting-Up-Permissions-FAQ" "style" "link" "emoji" (sdict "id" $discordlogo)) }}
+	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "Discord Permissions FAQ" "custom_id" "mmsr-permissions" "url" "https://support.discord.com/hc/en-us/articles/206029707-Setting-Up-Permissions-FAQ" "style" "link" "emoji" (sdict "id" $discordlogo)) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -289,7 +289,7 @@
 	{{ end }}
 	{{ $embed.Set "title" "ModMails Raw Invite Link" }}
 	{{ $embed.Set "description" "[https://discord.com/oauth2/authorize?client_id=575252669443211264&permissions=268823640&response_type=code&redirect_uri=https%3A%2F%2Fmodmail.xyz%2Fwelcome&scope=bot+applications.commands](https://discord.com/oauth2/authorize?client_id=575252669443211264&permissions=268823640&response_type=code&redirect_uri=https%3A%2F%2Fmodmail.xyz%2Fwelcome&scope=bot+applications.commands)" }}
-	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "ModMail Raw Invite" "custom_id" "support-response-invite" "url" "https://discord.com/oauth2/authorize?client_id=575252669443211264&permissions=268823640&response_type=code&redirect_uri=https%3A%2F%2Fmodmail.xyz%2Fwelcome&scope=bot+applications.commands" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
+	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "ModMail Raw Invite" "custom_id" "mmsr-invite" "url" "https://discord.com/oauth2/authorize?client_id=575252669443211264&permissions=268823640&response_type=code&redirect_uri=https%3A%2F%2Fmodmail.xyz%2Fwelcome&scope=bot+applications.commands" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
@@ -333,7 +333,7 @@
 	{{ end }}
 	{{ $embed.Set "title" "ModMail Status" }}
 	{{ $embed.Set "description" "You can view the [bot status page](https://modmail.xyz/status) to see if there is any known outage." }}
-	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "ModMail Status" "custom_id" "support-response-status" "url" "https://modmail.xyz/status" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
+	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "ModMail Status" "custom_id" "mmsr-status" "url" "https://modmail.xyz/status" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ $alreadyreplied := true }}
 {{ end }}
