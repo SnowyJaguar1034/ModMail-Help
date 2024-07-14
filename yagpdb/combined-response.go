@@ -29,9 +29,7 @@
 {{ $ar := false }}
 {{ $modmaillogo := "702099194701152266" }}
 {{ $discordlogo := "579210587557462021" }}
-{{ $deletebutton := cbutton "label" "Delete Response" "custom_id" "mmsr-delete" "style" 4 "disabled" true "emoji" (sdict "id" "1251255316121653343") }}
-{{ $bookmarkbutton := cbutton "label" "Bookmark Response" "custom_id" "mmsr-bookmark" "style" 2 "disabled" true "emoji" (sdict "id" "1251243802207846566") }}
-{{ $corebuttons := cslice $deletebutton $bookmarkbutton }}
+{{ $corebuttons := cslice (cbutton "label" "Delete Response" "custom_id" "mmsr-delete" "style" 4 "emoji" (sdict "id" "1251255316121653343")) (cbutton "label" "Bookmark Response" "custom_id" "mmsr-bookmark" "style" 2 "emoji" (sdict "id" "1251243802207846566")) }}
 {{ $extrabuttons := cslice }}
 
 {{ if eq .ExecData.trigger 0 }}
@@ -84,7 +82,7 @@
 			"inline" true
 			)
 		)}}
-	{{ $corebuttons := $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "mmsr-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
+	{{ $corebuttons := $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "mmsr-toggle" "style" 1 "emoji" (sdict "id" "1258858981372330165")) }}
 	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Invite ModMail" "custom_id" "mmsr-invite" "url" "https://modmail.xyz/invite" "style" "link" "emoji" (sdict "id" $modmaillogo)) (cbutton "label" "ModMail Commands (=help)" "custom_id" "mmsr-commands" "url" "https://modmail.xyz/commands" "style" "link" "emoji" (sdict "id" $modmaillogo ))) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $rt "embed" $re "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ $ar := true }}
@@ -109,7 +107,7 @@
 			"value" "If you are having trouble with the `=send` command, please ensure you are using the correct server ID. You can find this by right-clicking on the server name and selecting `Copy ID`."
 			"inline" false
 		))}}
-		{{ $corebuttons = $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "mmsr-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
+		{{ $corebuttons = $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "mmsr-toggle" "style" 1 "emoji" (sdict "id" "1258858981372330165")) }}
 	{{ sendMessageNoEscape nil (complexMessage "reply" $rt "embed" $re "buttons" $corebuttons) }}
 	{{ $ar := true }}
 {{ end }}
