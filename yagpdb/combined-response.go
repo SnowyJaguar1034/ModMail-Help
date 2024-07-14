@@ -17,6 +17,10 @@
 {{/* 12 : Logging response */}}
 {{/* 13 : Verfication response */}}
 {{/* 14 : Permission response */}}
+{{/* 15 : Raw Invite response */}}
+{{/* 16 : Issue response */}}
+{{/* 17 : Missing Premium response */}}
+{{/* 18 : Status response */}}
 
 
 {{/* Defining varibles for use throughout the script */}}
@@ -26,6 +30,7 @@
 {{ $bin := ":bin:1251255316121653343" }}
 {{ $bookmark := ":bookmark:1251243802207846566" }}
 {{ $mail := ":mail:1251255870701047909" }}
+{{ $modmaillogo := "702099194701152266" }}
 {{ $discordlogo := "579210587557462021" }}
 {{ $deletebutton := cbutton "label" "Delete Response" "custom_id" "support-response-delete" "style" 4 "disabled" true "emoji" (sdict "id" "1251255316121653343") }}
 {{ $bookmarkbutton := cbutton "label" "Bookmark Response" "custom_id" "support-response-bookmark" "style" 2 "disabled" true "emoji" (sdict "id" "1251243802207846566") }}
@@ -85,7 +90,7 @@
 			)
 		)}}
 	{{ $corebuttons := $corebuttons.Append (cbutton "label" "Toggle Extra Information" "custom_id" "support-response-toggle" "style" 1 "disabled" true "emoji" (sdict "id" "1258858981372330165")) }}
-	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Invite ModMail" "custom_id" "support-response-invite" "url" "https://modmail.xyz/invite" "style" "link" "emoji" (sdict "id" "1251255870701047909")) (cbutton "label" "ModMail Commands (=help)" "custom_id" "support-response-commands" "url" "https://modmail.xyz/commands" "style" "link" "emoji" (sdict "id" "1258858466081116293"))) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "Invite ModMail" "custom_id" "support-response-invite" "url" "https://modmail.xyz/invite" "style" "link" "emoji" (sdict "id" $modmaillogo)) (cbutton "label" "ModMail Commands (=help)" "custom_id" "support-response-commands" "url" "https://modmail.xyz/commands" "style" "link" "emoji" (sdict "id" $modmaillogo ))) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
@@ -125,7 +130,7 @@
 	{{ end }}
 	{{ $embed.Set "title" "Donation Link" }}
 	{{ $embed.Set "description" "[Purchase ModMail Premium Here](https://modmail.xyz/premium)" }}
-	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Buy Premium" "custom_id" "support-response-premium" "url" "https://modmail.xyz/premium" "style" "link" "emoji" (sdict "id" "1251273319110414429")) }}
+	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "Buy Premium" "custom_id" "support-response-premium" "url" "https://modmail.xyz/premium" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
@@ -140,7 +145,7 @@
 	{{ $embed.Set "title" "Advanced Logging Example" }}
 	{{ $embed.Set "description" "This is an example of what you'll get with advanced logging. https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" }}
 	{{ $file := "[2024-02-26 23:44:18] scyye#0 (User): Hello! I'm a user in need of assistance, can someone help me?\n[2024-02-26 23:44:43] scyye#0 (Comment): I am a staff member writing a comment on the ticket, for other staff to see\n[2024-02-26 23:45:16] scyye#0 (Staff): I am now replying to the user, asking them what they need help with.\n[2024-02-26 23:45:46] jrwallor#0 (Staff): Another staff member with an anonymous reply.\n[2024-02-26 23:45:58] scyye#0 (User): This is the user replying, thanking me for support (I didn't think this through, cut me some slack)\n[2024-02-26 23:46:36] scyye#0 (Comment): =c This ticket is resolved, so I'm closing it now." }}
-	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Example Logs" "custom_id" "support-response-logs" "url" "https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" "style" "link" "emoji" (sdict "id" "1254891424965722122")) }}
+	{{ $corebuttons = $corebuttons.Append (cbutton "label" "Example Logs" "custom_id" "support-response-logs" "url" "https://modmail.xyz/logs/d7586c153425000-10d1416086c01033-10d141608b802047" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "file" $file) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
@@ -177,7 +182,7 @@
 		"inline" true
 	) (sdict 
 		"name" "Contact" 
-		"value" "| <@381998065327931392> (`James [a_leon]`)\n|or\n| <@365262543872327681> (`snowyjaguar`)"
+		"value" "<@381998065327931392> (`James [a_leon]`)\n|or\n<@365262543872327681> (`snowyjaguar`)"
 		"inline" true
 	))}}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
@@ -206,7 +211,7 @@
 		"value" "[Click here](https://gist.github.com/waterflamev8/cab61e680e2fb5ea6027cbf144732925)"
 		"inline" true
 	))}}
-	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "ModMail GitHub" "custom_id" "support-response-github" "url" "https://github.com/chamburr/modmail" "style" "link" "emoji" (sdict "id" "579211233840857109")) (cbutton "label" "Official V3 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail#self-hosting" "style" "link" "emoji" (sdict "id" "...")) (cbutton "label" "Official V2 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail/blob/v2.1.2/README.md#self-hosting" "style" "link" "emoji" (sdict "id" "..."))) }}
+	{{ $extrabuttons = $extrabuttons.AppendSlice (cslice (cbutton "label" "ModMail GitHub" "custom_id" "support-response-github" "url" "https://github.com/chamburr/modmail" "style" "link" "emoji" (sdict "id" "579211233840857109")) (cbutton "label" "Official V3 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail#self-hosting" "style" "link" "emoji" (sdict "id" "579211233840857109")) (cbutton "label" "Official V2 Guide" "custom_id" "support-response-officialv3" "url" "https://github.com/chamburr/modmail/blob/v2.1.2/README.md#self-hosting" "style" "link" "emoji" (sdict "id" "579211233840857109"))) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark $mail) }}
 	{{ $alreadyreplied := true }}
@@ -234,6 +239,15 @@
 	{{ end }}
 	{{ $embed.Set "title" "Everyone can see my tickets!" }}
 	{{ $embed.Set "description" "If everyone in your server is able to view tickets, there is a chance that another bot in your server is interfering. This is not a problem with ModMail. We recommend checking the audit logs in your server settings to see which bot is changing the channel permissions." }}
+	{{ $embed.Set "fields" (cslice (sdict
+		"name" "Server Wide permissions"
+		"value" "These permissions are found in: **Server Settings --> Roles**\n\n- Your `@everyone` role needs to have `Send Messages` and `view message history` toggled on and `view channel` toggled off.\n - **Optional:** It can also have `connect`, `speak`, voice activity, `embed links`, `change nickname`, `add reaction`.\n  - These are optional as some people like to restrict some of these perms behind role rewards or only give them to server boosters."
+		"inline" false
+	) (sdict
+		"name" "Channel/Category Specific Permissions"
+		"value" "These permissions are found in: **Channel/category Settings --> Permissions**\n\n- Your `@everyone` role needs to have `view channel` set as the green tick within the channel/category permissions and not the role permissions.\n- If you have a `mute` or `muted` role then set it's `send messages` permission to the red cross.\n - **Optional:** set the `muted` or `mute` role `add reactions` to red cross as well to prevent muted users from spamming reactions on messages to show their displeasure at being muted.\n- Any role that should have access to view a channel should have `view channel` enabled for that channel/category.\n - Note: Users inherit permissions from all of their roles so if you gave `view channel` to your `@everyone` role for #general then no other role needs to have that permission.\n - Note: If you gave `view channel` only to your server booster role then only users with that role would be able to view that channel."
+		"inline" false
+	)) }}
 	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
 	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
 	{{ $alreadyreplied := true }}
@@ -278,7 +292,71 @@
 		"inline" false
 	)) }}
 	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "Discord Permissions FAQ" "custom_id" "support-response-permissions" "url" "https://support.discord.com/hc/en-us/articles/206029707-Setting-Up-Permissions-FAQ" "style" "link" "emoji" (sdict "id" $discordlogo)) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
+	{{ $alreadyreplied := true }}
+{{ end }}
 
+{{/* Check if trigger was "raw invite" response */}}
+{{ if eq .ExecData.trigger 15 }}
+	{{ $embed := sdict }}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+	{{ end }}
+	{{ $embed.Set "title" "ModMails Raw Invite Link" }}
+	{{ $embed.Set "description" "[https://discord.com/oauth2/authorize?client_id=575252669443211264&permissions=268823640&response_type=code&redirect_uri=https%3A%2F%2Fmodmail.xyz%2Fwelcome&scope=bot+applications.commands](https://discord.com/oauth2/authorize?client_id=575252669443211264&permissions=268823640&response_type=code&redirect_uri=https%3A%2F%2Fmodmail.xyz%2Fwelcome&scope=bot+applications.commands)" }}
+	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "ModMail Raw Invite" "custom_id" "support-response-invite" "url" "https://discord.com/oauth2/authorize?client_id=575252669443211264&permissions=268823640&response_type=code&redirect_uri=https%3A%2F%2Fmodmail.xyz%2Fwelcome&scope=bot+applications.commands" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
+	{{ $alreadyreplied := true }}
+{{ end }}
+
+{{/* Check if trigger was "issue" response */}}
+{{ if eq .ExecData.trigger 16 }}
+	{{ $embed := sdict }}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+	{{ end }}
+	{{ $embed.Set "title" "ModMail is not responding, not sending my messages, cannot find my servers!" }}	
+	{{ $embed.Set "description" "ModMail is experiencing issues at this time, no ETA. It will be fixed when the Developer is available." }}
+	{{ $embed.Set "thumbnail" (sdict "url" "https://cdn.discordapp.com/avatars/575252669443211264/7050131180642ef969d1ac28bd7354b6.png?size=1024") }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
+	{{ $alreadyreplied := true }}
+{{ end }}
+
+{{/* Check if trigger was "missing premium" response */}}
+{{ if eq .ExecData.trigger 17 }}
+	{{ $embed := sdict }}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+	{{ end }}
+	{{ $embed.Set "title" "Issues with Premium" }}
+	{{ $embed.Set "description" "Any user who bought premium will have one of the following roles depending on the tier purchased:\n- Patron: 1 Server\n- Super Patron: 3 Servers\n- Super Duper Patron: 5 Servers\n\nThis enables them to use the premium management commands to assign/remove premium from servers, as well as check which servers they have premium on.\nThese commands are found on page 7 of the `=help` command, the second to last page." }}
+	{{ $embed.Set "image" (sdict "url" "https://media.discordapp.net/attachments/576765224460353589/929004300951253012/unknown.png") }}
+	{{ $embed.Set "fields" (cslice (sdict
+		"name" "Users must join this server __before__ purchasing, otherwise they will not receive the role and will not be able to use the premium commands."
+		"value" "*Note: We can manually assign patron roles for those who did not join before purchasing, however, the process could take a few hours while we wait for an administrator to be available.*"
+		"inline" false
+	)) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
+	{{ $alreadyreplied := true }}
+{{ end }}
+
+{{/* Check if trigger was "status" response */}}
+{{ if eq .ExecData.trigger 18 }}
+	{{ $embed := sdict }}
+	{{ range $k, $v := $template }}
+		{{ $embed.Set $k $v}}
+	{{ end }}
+	{{ $embed.Set "title" "ModMail Status" }}
+	{{ $embed.Set "description" "You can view the [bot status page](https://modmail.xyz/status) to see if there is any known outage." }}
+	{{ $extrabuttons = $extrabuttons.Append (cbutton "label" "ModMail Status" "custom_id" "support-response-status" "url" "https://modmail.xyz/status" "style" "link" "emoji" (sdict "id" $modmaillogo)) }}
+	{{ $msgID := sendMessageNoEscapeRetID nil (complexMessage "reply" $replytarget "embed" $embed "buttons" $corebuttons "buttons" $extrabuttons) }}
+	{{ addMessageReactions nil $msgID (cslice $bin $bookmark) }}
+	{{ $alreadyreplied := true }}
+{{ end }}
 
 
 {{/* Check if trigger was "help" response */}}
